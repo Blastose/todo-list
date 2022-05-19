@@ -1,0 +1,65 @@
+body {
+  padding: 0;
+  margin: 0;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+  height: 100vh;
+}
+
+.todolist-app {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: min-content 1fr;
+  grid-template-areas: 
+  "header"
+  "content";
+}
+
+.sidebar {
+  background-color: rgb(245, 245, 245);
+  grid-area: sidebar;
+}
+
+.header {
+  background-color: rgb(107, 184, 255);
+  grid-area: header;
+  padding: 12px 48px;
+}
+
+.header-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.header-left {
+  justify-self: start;
+}
+
+.header-right {
+  justify-self: end;
+}
+
+.content {
+  background-color: rgb(252, 252, 252);
+  grid-area: content;
+}
+
+.wrapper {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media only screen and (min-width: 600px) { 
+  .todolist-app {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    grid-template-rows: min-content 1fr;
+    grid-template-areas: 
+    "header header"
+    "sidebar content";
+  }
+}
