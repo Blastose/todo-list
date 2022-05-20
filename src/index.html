@@ -14,7 +14,9 @@
           <div class="header-left">
             <span class="logo-title">Todo List</span>
           </div>
-          <div class="header-right">Right</div>
+          <div class="header-right">
+            <button>Add</button>
+          </div>
         </div>
       </header>
       <div class="sidebar">
@@ -56,12 +58,31 @@
             </div>
 
             <div class="main-todo-items">
-              <div class="todo-item-container">
+              <div class="todo-item-card">
                 <div class="todo-item-highlight"></div>
 
                 <div class="todo-item-content">
 
-                  <div class="todo-item-checkbox">O</div>
+                  <label for="check" class="todo-item-checkbox"><input type="checkbox" name="" id="check"></label>
+                  <div class="todo-item-title">Todo item title</div>
+                  <div class="todo-item-description">Todo item description</div>
+                  <div class="todo-item-date">12/12/1999</div>
+                  <div class="todo-item-project-title">Project</div>
+                  <div class="todo-item-actions">
+                    <div class="todo-item-edit">Edit</div>
+                    <div class="todo-item-delte">Delete</div>
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="todo-item-card">
+                <div class="todo-item-highlight"></div>
+
+                <div class="todo-item-content">
+
+                  <label for="check2" class="todo-item-checkbox"><input type="checkbox" name="" id="check2"></label>
                   <div class="todo-item-title">Todo item title</div>
                   <div class="todo-item-description">Todo item description</div>
                   <div class="todo-item-date">12/12/1999</div>

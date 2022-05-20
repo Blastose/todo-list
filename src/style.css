@@ -135,9 +135,10 @@ ul {
 .main-todo-items {
   display: flex;
   flex-direction: column;
+  gap: 18px;
 }
 
-.todo-item-container {
+.todo-item-card {
   background-color: rgb(213, 233, 255);
   border-radius: 8px;
   overflow: hidden;
@@ -146,7 +147,7 @@ ul {
   grid-template-columns: 10px 1fr;
 }
 
-.todo-item-container:hover .todo-item-highlight {
+.todo-item-card:hover .todo-item-highlight {
   background-color: rgb(116, 208, 245);
   transition-duration: 0.24s;
 }
@@ -154,12 +155,12 @@ ul {
 .todo-item-content {
   padding: 12px;
   display: grid;
-  grid-template-columns: min-content 1fr min-content;
+  grid-template-columns: min-content 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
   grid-template-areas:
   "checkbox title actions"
   "checkbox description actions"
-  "checkbox date actions";
+  "checkbox date project";
 }
 
 .todo-item-checkbox {
@@ -176,18 +177,37 @@ ul {
   grid-area: description;
 }
 
+.todo-item-title,
+.todo-item-description {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 .todo-item-actions {
   grid-area: actions;
 
   display: flex;
+  justify-content: flex-end;
   gap: 4px;
+}
+
+.todo-item-project-title {
+  grid-area: project;
+  font-weight: 100;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  
+  display: flex;
+  justify-content: flex-end;
 }
 
 .todo-item-date {
   grid-area: date;
 }
 
-@media only screen and (min-width: 600px) { 
+@media only screen and (min-width: 800px) { 
   .todolist-app {
     display: grid;
     grid-template-columns: 300px 1fr;
