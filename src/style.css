@@ -156,7 +156,7 @@ ul {
   padding: 12px;
   display: grid;
   grid-template-columns: min-content 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-rows: min-content min-content 1fr;
   grid-template-areas:
   "checkbox title actions"
   "checkbox description actions"
@@ -198,7 +198,7 @@ ul {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  
+
   display: flex;
   justify-content: flex-end;
 }
