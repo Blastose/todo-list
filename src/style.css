@@ -15,12 +15,38 @@ body {
   grid-template-rows: min-content 1fr;
   grid-template-areas: 
   "header"
-  "content";
+  "main";
 }
 
 .sidebar {
-  background-color: rgb(245, 245, 245);
-  grid-area: sidebar;
+  display: none;
+}
+
+.sidebar-content {
+  padding: 28px 32px 0px 32px;
+  display: flex;
+  flex-direction: column;
+}
+
+.main > .wrapper {
+  padding: 32px 64px 16px 64px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar-item {
+  white-space: nowarp;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+.sidebar-item:hover {
+  background-color: rgb(226, 226, 226);
 }
 
 .header {
@@ -42,9 +68,9 @@ body {
   justify-self: end;
 }
 
-.content {
+.main {
   background-color: rgb(252, 252, 252);
-  grid-area: content;
+  grid-area: main;
 }
 
 .wrapper {
@@ -60,6 +86,12 @@ body {
     grid-template-rows: min-content 1fr;
     grid-template-areas: 
     "header header"
-    "sidebar content";
+    "sidebar main";
+  }
+
+  .sidebar {
+    display: block;
+    background-color: rgb(245, 245, 245);
+    grid-area: sidebar;
   }
 }
