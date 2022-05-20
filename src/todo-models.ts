@@ -27,6 +27,19 @@ class TodoList {
   constructor(todoList: TodoItem[]) {
     this.todoList = todoList;
   }
+
+  add(todoItem: TodoItem) {
+    this.todoList.push(todoItem);
+  }
+
+  remove(index: number) {
+    this.todoList.splice(index, 1);
+  }
+
+  update(index: number, todoItem: TodoItem) {
+    this.todoList.splice(index, 1, todoItem);
+  }
+
 }
 
 class Project {

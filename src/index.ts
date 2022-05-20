@@ -1,2 +1,2 @@
 import './style.css'
-import * as Todo from './todo'
+import * as TodoModels from './todo-models'
