@@ -50,12 +50,25 @@ ul {
 }
 
 .sidebar-item-content {
-  margin: 8px 12px;
+  margin: 8px 10px;
   cursor: pointer;
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  align-items: center;
+  gap: 10px;
+}
+
+.sidebar-item-icon {
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-svg {
+  height: 1.5em;
 }
 
 .header {
-  background-color: rgb(107, 184, 255);
+  background-color: rgb(130, 194, 255);
   grid-area: header;
   padding: 12px 48px;
 }
@@ -63,10 +76,16 @@ ul {
 .header-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  align-items: center;
 }
 
 .header-left {
   justify-self: start;
+}
+
+.logo-title {
+  font-size: 26px;
+  font-weight: bold;
 }
 
 .header-right {
