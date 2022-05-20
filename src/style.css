@@ -23,7 +23,7 @@ body {
 }
 
 .sidebar-content {
-  padding: 28px 32px 0px 32px;
+  padding: 28px 28px 0px 28px;
   display: flex;
   flex-direction: column;
 }
@@ -35,6 +35,7 @@ body {
 ul {
   list-style-type: none;
   padding: 0;
+  margin: 0;
 }
 
 .sidebar-item {
@@ -42,11 +43,15 @@ ul {
   text-overflow: ellipsis;
   overflow: hidden;
   border-radius: 8px;
-  padding: 8px 12px;
 }
 
 .sidebar-item:hover {
   background-color: rgb(226, 226, 226);
+}
+
+.sidebar-item-content {
+  margin: 8px 12px;
+  cursor: pointer;
 }
 
 .header {
@@ -91,7 +96,7 @@ ul {
 
   .sidebar {
     display: block;
-    background-color: rgb(245, 245, 245);
+    background-color: rgb(240, 240, 240);
     grid-area: sidebar;
   }
 }
