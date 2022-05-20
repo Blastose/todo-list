@@ -43,6 +43,7 @@ ul {
 .sidebar-item {
   border-radius: 8px;
   padding: 1px 0px;
+  transition-duration: 0.08s;
 }
 
 .sidebar-item-title {
@@ -129,6 +130,61 @@ ul {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+.main-todo-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.todo-item-container {
+  background-color: rgb(213, 233, 255);
+  border-radius: 8px;
+  overflow: hidden;
+
+  display: grid;
+  grid-template-columns: 10px 1fr;
+}
+
+.todo-item-container:hover .todo-item-highlight {
+  background-color: rgb(116, 208, 245);
+  transition-duration: 0.24s;
+}
+
+.todo-item-content {
+  padding: 12px;
+  display: grid;
+  grid-template-columns: min-content 1fr min-content;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-areas:
+  "checkbox title actions"
+  "checkbox description actions"
+  "checkbox date actions";
+}
+
+.todo-item-checkbox {
+  grid-area: checkbox;
+}
+
+.todo-item-title {
+  grid-area: title;
+
+  font-weight: 600;
+}
+
+.todo-item-description {
+  grid-area: description;
+}
+
+.todo-item-actions {
+  grid-area: actions;
+
+  display: flex;
+  gap: 4px;
+}
+
+.todo-item-date {
+  grid-area: date;
 }
 
 @media only screen and (min-width: 600px) { 
