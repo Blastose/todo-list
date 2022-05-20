@@ -30,6 +30,8 @@ body {
 
 .main > .wrapper {
   padding: 32px 64px 16px 64px;
+  box-sizing: border-box;
+  height: 100%;
 }
 
 ul {
@@ -39,10 +41,14 @@ ul {
 }
 
 .sidebar-item {
-  white-space: nowarp;
+  border-radius: 8px;
+  padding: 1px 0px;
+}
+
+.sidebar-item-title {
+  white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  border-radius: 8px;
 }
 
 .sidebar-item:hover {
@@ -86,6 +92,7 @@ ul {
 .logo-title {
   font-size: 26px;
   font-weight: bold;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
 }
 
 .header-right {
@@ -103,6 +110,27 @@ ul {
   margin-right: auto;
 }
 
+.main-content {
+  height: 100%;
+  display: grid;
+  grid-template-rows: min-content 1fr;
+  gap: 18px;
+}
+
+.main-title-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.main-title-text {
+  font-size: 22px;
+  font-weight: bold;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 @media only screen and (min-width: 600px) { 
   .todolist-app {
     display: grid;
@@ -115,7 +143,7 @@ ul {
 
   .sidebar {
     display: block;
-    background-color: rgb(240, 240, 240);
+    background-color: rgb(245, 245, 245);
     grid-area: sidebar;
   }
 }
