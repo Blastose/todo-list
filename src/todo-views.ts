@@ -1,6 +1,6 @@
-import { de } from 'date-fns/locale';
 import * as TodoModels from './todo-models';
 import { DOMManipulation } from './util';
+import { format } from 'date-fns'
 
 class TodoItemView {
   todoItem: TodoModels.TodoItem;
@@ -29,16 +29,19 @@ class TodoItemView {
     description.textContent = this.todoItem.description;
 
     const date = DOMManipulation.createElementWithClass('div', 'todo-item-date');
-    date.textContent = String(this.todoItem.dueDate);
+    date.textContent = format(this.todoItem.dueDate, "MM/dd/yyyy");
 
     const projectTitle = DOMManipulation.createElementWithClass('div', 'todo-item-project-title');
     projectTitle.textContent = "__PLACEHOLDER__";
 
     const actions = DOMManipulation.createElementWithClass('div', 'todo-item-actions');
-    const editButton = DOMManipulation.createElementWithClass('div', 'todo-item-edit');
-    const deleteButton = DOMManipulation.createElementWithClass('div', 'todo-item-delete');
-    editButton.textContent = "Edit";
-    deleteButton.textContent = "Delete";
+    const editSvgPath = require('./images/pencil.svg');
+    const editButton = DOMManipulation.createElementWithClass('img', 'todo-item-edit');
+    editButton.setAttribute('src', editSvgPath);
+    const deleteSvgPath = require('./images/delete.svg');
+    const deleteButton = DOMManipulation.createElementWithClass('img', 'todo-item-delete');
+    deleteButton.setAttribute('src', deleteSvgPath);
+    
     actions.appendChild(editButton);
     actions.appendChild(deleteButton);
 
@@ -54,5 +57,21 @@ class TodoItemView {
   
 }
 
+class TodoListView {
+  list: TodoModels.TodoList;
 
-export { TodoItemView }
+  constructor(todoList: TodoModels.TodoList) {
+    this.list = todoList;
+  }
+
+  createViewElement(): HTMLElement {
+    const items = DOMManipulation.createElementWithClass('div', 'main-todo-items');
+    this.list.todoList.forEach(item => {
+      const itemView = new TodoItemView(item);
+      items.appendChild(itemView.createViewElement());
+    });
+    return items;
+  }
+}
+
+export { TodoItemView, TodoListView }
