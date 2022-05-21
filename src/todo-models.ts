@@ -24,8 +24,12 @@ class TodoItem {
 class TodoList {
   todoList: TodoItem[];
 
-  constructor(todoList: TodoItem[]) {
-    this.todoList = todoList;
+  constructor(todoList?: TodoItem[]) {
+    if (todoList) {
+      this.todoList = todoList;
+    } else {
+      this.todoList = [] as TodoItem[];
+    }
   }
 
   add(todoItem: TodoItem) {
