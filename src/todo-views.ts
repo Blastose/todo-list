@@ -49,8 +49,8 @@ class TodoItemView {
     content.appendChild(title);
     content.appendChild(description);
     content.appendChild(date);
-    content.appendChild(projectTitle);
     content.appendChild(actions);
+    content.appendChild(projectTitle);
 
     return card;
   }
