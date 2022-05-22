@@ -37,6 +37,8 @@ class TodoList {
   }
 
   remove(index: number) {
+    console.log(this);
+    console.log(this.todoList[index]);
     this.todoList.splice(index, 1);
   }
 
