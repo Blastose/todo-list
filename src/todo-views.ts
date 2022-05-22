@@ -3,13 +3,8 @@ import { DOMManipulation } from './util';
 import { format } from 'date-fns'
 
 class TodoItemView {
-  todoItem: TodoModels.TodoItem;
 
-  constructor(todoItem: TodoModels.TodoItem) {
-    this.todoItem = todoItem;
-  }
-
-  createViewElement(): HTMLElement {
+  createViewElement(todoItem: TodoModels.TodoItem): HTMLElement {
     const card = DOMManipulation.createElementWithClass('div', 'todo-item-card');
     const highlight = DOMManipulation.createElementWithClass('div', 'todo-item-highlight');
     const content = DOMManipulation.createElementWithClass('div', 'todo-item-content');
@@ -23,13 +18,13 @@ class TodoItemView {
     labelCheckbox.appendChild(checkbox);
 
     const title = DOMManipulation.createElementWithClass('div', 'todo-item-title');
-    title.textContent = this.todoItem.title;
+    title.textContent = todoItem.title;
 
     const description = DOMManipulation.createElementWithClass('div', 'todo-item-description');
-    description.textContent = this.todoItem.description;
+    description.textContent = todoItem.description;
 
     const date = DOMManipulation.createElementWithClass('div', 'todo-item-date');
-    date.textContent = format(this.todoItem.dueDate, "MM/dd/yyyy");
+    date.textContent = format(todoItem.dueDate, "MM/dd/yyyy");
 
     const projectTitle = DOMManipulation.createElementWithClass('div', 'todo-item-project-title');
     projectTitle.textContent = "__PLACEHOLDER__";
@@ -58,17 +53,12 @@ class TodoItemView {
 }
 
 class TodoListView {
-  list: TodoModels.TodoList;
 
-  constructor(todoList: TodoModels.TodoList) {
-    this.list = todoList;
-  }
-
-  createViewElement(): HTMLElement {
+  createViewElement(list: TodoModels.TodoList): HTMLElement {
     const items = DOMManipulation.createElementWithClass('div', 'main-todo-items');
-    this.list.todoList.forEach(item => {
-      const itemView = new TodoItemView(item);
-      items.appendChild(itemView.createViewElement());
+    list.todoList.forEach(item => {
+      const itemView = new TodoItemView();
+      items.appendChild(itemView.createViewElement(item));
     });
     return items;
   }

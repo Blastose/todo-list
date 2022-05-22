@@ -4,16 +4,16 @@ import * as TodoViews from './todo-views'
 
 
 const item = new TodoModels.TodoItem('My todo item', 'This is my todo item', new Date(), TodoModels.Priority.none, false);
-const view = new TodoViews.TodoItemView(item);
+const view = new TodoViews.TodoItemView();
 const list = new TodoModels.TodoList();
 for (let i = 0; i < 10; i++) {
   const i = new TodoModels.TodoItem('My todo item', 'This is my todo item', new Date(), TodoModels.Priority.none, false);
   list.add(i);
 }
-const listView = new TodoViews.TodoListView(list);
+const listView = new TodoViews.TodoListView();
 
 const container = document.querySelector('.main-todo-items');
-container?.appendChild(view.createViewElement());
+container?.appendChild(view.createViewElement(item));
 
 const main = document.querySelector('.main-content');
-main?.appendChild(listView.createViewElement());
+main?.appendChild(listView.createViewElement(list));
