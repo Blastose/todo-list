@@ -4,7 +4,7 @@ import { format } from 'date-fns'
 
 class TodoItemView {
 
-  createViewElement(todoItem: TodoModels.TodoItem, deleteFunction: (index: number) => void, id: number): HTMLElement {
+  createViewElement(todoItem: TodoModels.TodoItem, deleteFunction: (id: string) => void): HTMLElement {
     const card = DOMManipulation.createElementWithClass('div', 'todo-item-card');
     const highlight = DOMManipulation.createElementWithClass('div', 'todo-item-highlight');
     const content = DOMManipulation.createElementWithClass('div', 'todo-item-content');
@@ -33,10 +33,12 @@ class TodoItemView {
     const editSvgPath = require('./images/pencil.svg');
     const editButton = DOMManipulation.createElementWithClass('img', 'todo-item-edit');
     editButton.setAttribute('src', editSvgPath);
+    editButton.setAttribute('title', 'Edit');
     const deleteSvgPath = require('./images/delete.svg');
     const deleteButton = DOMManipulation.createElementWithClass('img', 'todo-item-delete');
     deleteButton.setAttribute('src', deleteSvgPath);
-    deleteButton.addEventListener('click',  () => { deleteFunction(id) });
+    deleteButton.setAttribute('title', 'Delete');
+    deleteButton.addEventListener('click',  () => { deleteFunction(todoItem.id) });
     
     actions.appendChild(editButton);
     actions.appendChild(deleteButton);
@@ -55,11 +57,11 @@ class TodoItemView {
 
 class TodoListView {
 
-  createViewElement(list: TodoModels.TodoList, deleteFunction:  (index: number) => void): HTMLElement {
+  createViewElement(list: TodoModels.TodoList, deleteFunction:  (id: string) => void): HTMLElement {
     const items = DOMManipulation.createElementWithClass('div', 'main-todo-items');
-    list.todoList.forEach((item, id) => {
+    list.todoList.forEach((item) => {
       const itemView = new TodoItemView();
-      items.appendChild(itemView.createViewElement(item, deleteFunction, id));
+      items.appendChild(itemView.createViewElement(item, deleteFunction));
     });
     return items;
   }

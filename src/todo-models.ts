@@ -11,13 +11,15 @@ class TodoItem {
   dueDate: Date;
   priority: Priority;
   completed: boolean;
+  id: string;
     
-  constructor(title: string, description: string, dueDate: Date, priority: Priority, completed: boolean) {
+  constructor(title: string, description: string, dueDate: Date, priority: Priority, completed: boolean, id: string) {
     this.title = title;
     this.description = description;
     this.dueDate = dueDate;
     this.priority = priority;
     this.completed = completed;
+    this.id = id;
   }
 }
 
@@ -40,6 +42,19 @@ class TodoList {
     console.log(this);
     console.log(this.todoList[index]);
     this.todoList.splice(index, 1);
+  }
+
+  removeById(id: string) {
+    let foundIndex = -1;
+    for (let i = 0; i < this.todoList.length; i++) {
+      if (this.todoList[i].id === id) {
+        foundIndex = i;
+        break;
+      }
+    };
+    if (foundIndex !== -1) {
+      this.remove(foundIndex);
+    }
   }
 
   update(index: number, todoItem: TodoItem) {

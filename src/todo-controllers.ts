@@ -26,13 +26,17 @@ class TodoListController {
 
   // Create a separate function instead of using an arrow function
   // because I couldn't get the arrow function to work
-  removeListItemAndRefreshView(index: number) {
-    this.removeListItem(index);
+  removeListItemAndRefreshView(id: string) {
+    this.removeListItemById(id);
     this.refreshView();
   }
 
   removeListItem(index: number) {
     this.todoListModel.remove(index);
+  }
+
+  removeListItemById(id: string) {
+    this.todoListModel.removeById(id);
   }
 
   refreshView() {
