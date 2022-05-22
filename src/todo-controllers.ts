@@ -1,5 +1,6 @@
 import * as TodoModels from './todo-models';
 import * as TodoViews from './todo-views';
+import { v4 as uuidv4 } from 'uuid'
 
 class TodoItemController {
   todoItemModel: TodoModels.TodoItem;
@@ -21,7 +22,10 @@ class TodoListController {
   }
 
   showList() {
-    return this.todoListView.createViewElement(this.todoListModel, this.removeListItemAndRefreshView.bind(this));
+    return this.todoListView.createViewElement(
+      this.todoListModel,
+      this.removeListItemAndRefreshView.bind(this),
+      this.addListItem.bind(this));
   }
 
   // Create a separate function instead of using an arrow function
@@ -37,6 +41,11 @@ class TodoListController {
 
   removeListItemById(id: string) {
     this.todoListModel.removeById(id);
+  }
+
+  addListItem(item: TodoModels.TodoItem) {
+    this.todoListModel.add(item);
+    this.refreshView();
   }
 
   refreshView() {

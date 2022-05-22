@@ -1,6 +1,7 @@
 import * as TodoModels from './todo-models';
 import { DOMManipulation } from './util';
-import { format } from 'date-fns'
+import { add, format } from 'date-fns'
+import { v4 as uuidv4 } from 'uuid'
 
 class TodoItemView {
 
@@ -57,12 +58,18 @@ class TodoItemView {
 
 class TodoListView {
 
-  createViewElement(list: TodoModels.TodoList, deleteFunction:  (id: string) => void): HTMLElement {
+  createViewElement(list: TodoModels.TodoList, deleteFunction:  (id: string) => void, addFunction: (item: TodoModels.TodoItem) => void): HTMLElement {
     const items = DOMManipulation.createElementWithClass('div', 'main-todo-items');
     list.todoList.forEach((item) => {
       const itemView = new TodoItemView();
       items.appendChild(itemView.createViewElement(item, deleteFunction));
     });
+    
+    const addButton = DOMManipulation.createElementWithClass('button', 'add');
+    addButton.textContent = 'Add';
+    addButton.addEventListener('click', () => addFunction(new TodoModels.TodoItem(uuidv4(), uuidv4(), new Date(), TodoModels.Priority.none, false, uuidv4())));
+
+    items.appendChild(addButton);
     return items;
   }
 }
