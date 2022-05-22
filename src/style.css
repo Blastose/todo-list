@@ -29,7 +29,7 @@ body {
 }
 
 .main > .wrapper {
-  padding: 32px 64px 16px 64px;
+  padding: 32px 64px 128px 64px;
   box-sizing: border-box;
   height: 100%;
 }

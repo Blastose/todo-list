@@ -12,14 +12,16 @@ class TodoItem {
   priority: Priority;
   completed: boolean;
   id: string;
+  project: string;
     
-  constructor(title: string, description: string, dueDate: Date, priority: Priority, completed: boolean, id: string) {
+  constructor(title: string, description: string, dueDate: Date, priority: Priority, completed: boolean, id: string, project: string) {
     this.title = title;
     this.description = description;
     this.dueDate = dueDate;
     this.priority = priority;
     this.completed = completed;
     this.id = id;
+    this.project = project;
   }
 }
 

@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 const list = new TodoModels.TodoList();
 for (let i = 0; i < 10; i++) {
-  const item = new TodoModels.TodoItem(`${i}`, 'This is my todo item', new Date(), TodoModels.Priority.none, false, uuidv4());
+  const item = new TodoModels.TodoItem(`${i}`, 'This is my todo item', new Date(), TodoModels.Priority.none, false, uuidv4(), 'Old Project');
   list.add(item);
 }
 const listView = new TodoViews.TodoListView();

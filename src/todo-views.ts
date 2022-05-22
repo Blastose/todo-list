@@ -13,9 +13,10 @@ class TodoItemView {
     card.appendChild(content);
 
     const labelCheckbox = DOMManipulation.createElementWithClass('label', 'todo-item-checkbox');
-    labelCheckbox.setAttribute('for', '__PLACEHOLDER__');
+    labelCheckbox.setAttribute('for', todoItem.id);
     const checkbox = document.createElement('input');
     checkbox.setAttribute('type', 'checkbox');
+    checkbox.setAttribute('id', todoItem.id);
     labelCheckbox.appendChild(checkbox);
 
     const title = DOMManipulation.createElementWithClass('div', 'todo-item-title');
@@ -28,7 +29,7 @@ class TodoItemView {
     date.textContent = format(todoItem.dueDate, "MM/dd/yyyy");
 
     const projectTitle = DOMManipulation.createElementWithClass('div', 'todo-item-project-title');
-    projectTitle.textContent = "__PLACEHOLDER__";
+    projectTitle.textContent = todoItem.project;
 
     const actions = DOMManipulation.createElementWithClass('div', 'todo-item-actions');
     const editSvgPath = require('./images/pencil.svg');
@@ -67,7 +68,7 @@ class TodoListView {
     
     const addButton = DOMManipulation.createElementWithClass('button', 'add');
     addButton.textContent = 'Add';
-    addButton.addEventListener('click', () => addFunction(new TodoModels.TodoItem(uuidv4(), uuidv4(), new Date(), TodoModels.Priority.none, false, uuidv4())));
+    addButton.addEventListener('click', () => addFunction(new TodoModels.TodoItem(uuidv4(), uuidv4(), new Date(), TodoModels.Priority.none, false, uuidv4(), 'My Project')));
 
     items.appendChild(addButton);
     return items;
