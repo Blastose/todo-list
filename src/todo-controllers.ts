@@ -57,4 +57,36 @@ class TodoListController {
   }
 }
 
-export { TodoItemController, TodoListController } 
+class ProjectListController {
+  projectListModel: TodoModels.ProjectList;
+  projectListView: TodoViews.ProjectListView;
+
+  constructor(projectListModel: TodoModels.ProjectList, projectListView: TodoViews.ProjectListView) {
+    this.projectListModel = projectListModel;
+    this.projectListView = projectListView;
+  }
+
+  showProjectList(): HTMLElement {
+    return this.projectListView.createViewElement(this.projectListModel);
+  }
+
+  refreshProjectList() {
+    const projectList = document.getElementById('ul-project-list');
+    projectList?.remove();
+
+    const projectMenuList = document.querySelector('.project-list > .menu-list');
+    console.log(projectMenuList);
+    projectMenuList?.appendChild(this.showProjectList());
+  }
+
+  addProject() {
+
+  }
+
+  deleteProject() {
+
+  }
+
+}
+
+export { TodoItemController, TodoListController, ProjectListController } 
