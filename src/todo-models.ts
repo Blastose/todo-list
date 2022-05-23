@@ -73,6 +73,17 @@ class Project {
     this.title = title;
     this.todoList = todoList;
   }
+
+  getCount() {
+    let count = 0;
+    this.todoList.todoList.forEach((item) => {
+      if (item.project === this.title) {
+        count += 1;
+      }
+    });
+    return count;
+  }
+
 }
 
 class ProjectList {

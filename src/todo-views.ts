@@ -75,4 +75,41 @@ class TodoListView {
   }
 }
 
-export { TodoItemView, TodoListView }
+class ProjectView {
+
+  createViewElement(project: TodoModels.Project, onClick: () => void): HTMLElement {
+    const sidebarItem = DOMManipulation.createElementWithClass('li', 'sidebar-item');
+    const projectItemContent = DOMManipulation.createElementWithClass('div', 'project-item-content');
+    const projectTitle = DOMManipulation.createElementWithClass('span', 'sidebar-item-title');
+    projectTitle.textContent = project.title;
+    const projectItemCount = DOMManipulation.createElementWithClass('span', 'project-item-count');
+    projectItemCount.textContent = String(project.getCount());
+
+    projectItemContent.appendChild(projectTitle);
+    projectItemContent.appendChild(projectItemCount);
+    projectItemContent.addEventListener('click', onClick);
+
+    sidebarItem.appendChild(projectItemContent);
+
+    return sidebarItem;
+  }
+}
+
+class ProjectListView {
+
+  createViewElement(projectList: TodoModels.ProjectList): HTMLElement {
+    const menuList = DOMManipulation.createElementWithClass('div', 'menu-list');
+    const ul = DOMManipulation.createElementWithClass('ul', 'ul-project-list');
+    menuList.appendChild(ul);
+
+    projectList.projects.forEach((project) => {
+      const projectView = new ProjectView();
+
+      ul.appendChild(projectView.createViewElement(project, () => {}));
+    });
+
+    return menuList;
+  }
+}
+
+export { TodoItemView, TodoListView, ProjectView, ProjectListView }
