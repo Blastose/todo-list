@@ -1,6 +1,6 @@
 import * as TodoModels from './todo-models';
 import { DOMManipulation } from './util';
-import { add, format } from 'date-fns'
+import { add, format, sub } from 'date-fns'
 import { v4 as uuidv4 } from 'uuid'
 
 class TodoItemView {
@@ -113,7 +113,7 @@ class ProjectListView {
 }
 
 class ModalView {
-  static createViewElement(): HTMLElement {
+  static createViewElement(modalTitle: string): HTMLElement {
     const modal = DOMManipulation.createElementWithClass('div', 'modal');
     const modalContainer = DOMManipulation.createElementWithClass('div', 'modal-container');
     modal.appendChild(modalContainer);
@@ -121,20 +121,38 @@ class ModalView {
     const modalContent = DOMManipulation.createElementWithClass('div', 'modal-content');
     modalContainer.appendChild(modalContent);
 
+    const title = DOMManipulation.createElementWithClass('div', 'modal-title');
+    title.textContent = modalTitle;
+    modalContent.appendChild(title);
+    const closeButton = DOMManipulation.createElementWithClass('button', 'close-modal');
+    closeButton.textContent = 'X';
+    title.appendChild(closeButton);
+    closeButton.addEventListener('click', () => {
+      modal.remove();
+    })
+
     return modal;
   }
 }
 
 class ProjectModalView {
 
-  createViewElement(): HTMLElement {
-    const modal = ModalView.createViewElement();
+  createViewElement(addFunction: () => void): HTMLElement {
+    const modal = ModalView.createViewElement('Add project');
     const modalContent = modal.querySelector('.modal-content')!;
-    
-    const title = DOMManipulation.createElementWithClass('div', 'modal-title');
-    title.textContent = 'Add project';
-    modalContent.appendChild(title);
 
+    const form = DOMManipulation.createElementWithClass('form', 'project-form');
+    modalContent.appendChild(form);
+
+    const [projectTitleLabel, projectTitleInput] = DOMManipulation.createFormInput('text', 'project-title', 'Name');
+    const submitButton = document.createElement('input');
+    submitButton.setAttribute('type', 'button');
+    submitButton.setAttribute('value', 'Add');
+    submitButton.addEventListener('click', addFunction);
+    
+    form.appendChild(projectTitleLabel);
+    form.appendChild(projectTitleInput);
+    form.appendChild(submitButton);
     
     return modal;
   }
