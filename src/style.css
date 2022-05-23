@@ -26,6 +26,7 @@ body {
   padding: 28px 28px 0px 28px;
   display: flex;
   flex-direction: column;
+  gap: 32px;
 }
 
 .main > .wrapper {
@@ -72,6 +73,40 @@ ul {
 
 .sidebar-svg {
   height: 1.5em;
+}
+
+.project-list-heading {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.project-list-heading {
+  display: grid;
+  grid-template-columns: min-content 1fr 1fr;
+}
+
+.project-item-content {
+  margin: 8px 10px;
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  align-items: center;
+  gap: 10px;
+}
+
+.project-item-count {
+  color: gray;
+  justify-self: end;
+}
+
+.add-project-button {
+  justify-self: end;
 }
 
 .header {
