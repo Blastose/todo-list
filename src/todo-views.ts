@@ -112,4 +112,32 @@ class ProjectListView {
   }
 }
 
-export { TodoItemView, TodoListView, ProjectView, ProjectListView }
+class ModalView {
+  static createViewElement(): HTMLElement {
+    const modal = DOMManipulation.createElementWithClass('div', 'modal');
+    const modalContainer = DOMManipulation.createElementWithClass('div', 'modal-container');
+    modal.appendChild(modalContainer);
+
+    const modalContent = DOMManipulation.createElementWithClass('div', 'modal-content');
+    modalContainer.appendChild(modalContent);
+
+    return modal;
+  }
+}
+
+class ProjectModalView {
+
+  createViewElement(): HTMLElement {
+    const modal = ModalView.createViewElement();
+    const modalContent = modal.querySelector('.modal-content')!;
+    
+    const title = DOMManipulation.createElementWithClass('div', 'modal-title');
+    title.textContent = 'Add project';
+    modalContent.appendChild(title);
+
+    
+    return modal;
+  }
+}
+
+export { TodoItemView, TodoListView, ProjectView, ProjectListView, ProjectModalView }

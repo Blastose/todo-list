@@ -75,7 +75,6 @@ class ProjectListController {
     projectList?.remove();
 
     const projectMenuList = document.querySelector('.project-list > .menu-list');
-    console.log(projectMenuList);
     projectMenuList?.appendChild(this.showProjectList());
   }
 

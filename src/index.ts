@@ -20,3 +20,6 @@ const projectListView = new TodoViews.ProjectListView();
 const projectListController = new TodoControllers.ProjectListController(projectList, projectListView);
 projectListController.addProject(new TodoModels.Project('New Project', list));
 projectListController.refreshProjectList();
+
+const projectModal = new TodoViews.ProjectModalView();
+document.querySelector('.container')?.prepend(projectModal.createViewElement());
