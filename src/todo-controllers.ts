@@ -79,8 +79,8 @@ class ProjectListController {
     projectMenuList?.appendChild(this.showProjectList());
   }
 
-  addProject() {
-
+  addProject(project: TodoModels.Project) {
+    this.projectListModel.addProject(project);
   }
 
   deleteProject() {

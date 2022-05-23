@@ -48,6 +48,7 @@ class TodoList {
 
   removeById(id: string) {
     let foundIndex = -1;
+    // Can use Array.prototype.findIndex() instead
     for (let i = 0; i < this.todoList.length; i++) {
       if (this.todoList[i].id === id) {
         foundIndex = i;
@@ -91,6 +92,10 @@ class ProjectList {
 
   constructor(projects: Project[]) {
     this.projects = projects;
+  }
+
+  addProject(project: Project) {
+    this.projects.push(project);
   }
 }
 

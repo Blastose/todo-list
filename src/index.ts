@@ -18,4 +18,5 @@ const project = new TodoModels.Project('New Project item', list);
 const projectList = new TodoModels.ProjectList([project, new TodoModels.Project('Old Project', list), new TodoModels.Project('My Project', list)]);
 const projectListView = new TodoViews.ProjectListView();
 const projectListController = new TodoControllers.ProjectListController(projectList, projectListView);
+projectListController.addProject(new TodoModels.Project('New Project', list));
 projectListController.refreshProjectList();
