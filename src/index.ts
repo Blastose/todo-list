@@ -19,7 +19,6 @@ const projectList = new TodoModels.ProjectList([project, new TodoModels.Project(
 const projectListView = new TodoViews.ProjectListView();
 const projectListController = new TodoControllers.ProjectListController(projectList, projectListView);
 projectListController.addProject(new TodoModels.Project('New Project', list));
-projectListController.refreshProjectList();
+projectListController.refreshProjectListView();
 
-const projectModal = new TodoViews.ProjectModalView();
-document.querySelector('.container')?.prepend(projectModal.createViewElement(() => {console.log(1)}));
+console.log(projectList.projects);

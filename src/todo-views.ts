@@ -96,6 +96,11 @@ class ProjectView {
 }
 
 class ProjectListView {
+  addProjectButton: HTMLElement;
+
+  constructor() {
+    this.addProjectButton = document.querySelector('.add-project-button')!;
+  }
 
   createViewElement(projectList: TodoModels.ProjectList): HTMLElement {
     const menuList = DOMManipulation.createElementWithClass('div', 'menu-list');
@@ -117,13 +122,14 @@ class ModalView {
     const modal = DOMManipulation.createElementWithClass('div', 'modal');
     const modalContainer = DOMManipulation.createElementWithClass('div', 'modal-container');
     modal.appendChild(modalContainer);
-
+    
     const modalContent = DOMManipulation.createElementWithClass('div', 'modal-content');
     modalContainer.appendChild(modalContent);
 
     const title = DOMManipulation.createElementWithClass('div', 'modal-title');
     title.textContent = modalTitle;
     modalContent.appendChild(title);
+
     const closeButton = DOMManipulation.createElementWithClass('button', 'close-modal');
     closeButton.textContent = 'X';
     title.appendChild(closeButton);
@@ -144,7 +150,7 @@ class ProjectModalView {
     const form = DOMManipulation.createElementWithClass('form', 'project-form');
     modalContent.appendChild(form);
 
-    const [projectTitleLabel, projectTitleInput] = DOMManipulation.createFormInput('text', 'project-title', 'Name');
+    const [projectTitleLabel, projectTitleInput] = DOMManipulation.createFormInput('text', 'project-title', 'form-field', 'Name');
     const submitButton = document.createElement('input');
     submitButton.setAttribute('type', 'button');
     submitButton.setAttribute('value', 'Add');

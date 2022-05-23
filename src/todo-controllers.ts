@@ -60,21 +60,32 @@ class TodoListController {
 class ProjectListController {
   projectListModel: TodoModels.ProjectList;
   projectListView: TodoViews.ProjectListView;
+  modal: HTMLElement;
 
   constructor(projectListModel: TodoModels.ProjectList, projectListView: TodoViews.ProjectListView) {
     this.projectListModel = projectListModel;
     this.projectListView = projectListView;
+    this.modal = new TodoViews.ProjectModalView().createViewElement(
+      () => {
+      this.addProject(new TodoModels.Project('Controller new project', this.projectListModel.projects[0].todoList));
+      this.refreshProjectListView();
+      this.modal.remove();
+    });
+
+    this.projectListView.addProjectButton.addEventListener('click', () => {
+      document.querySelector('.container')?.prepend(this.modal);
+    });
   }
 
   showProjectList(): HTMLElement {
     return this.projectListView.createViewElement(this.projectListModel);
   }
 
-  refreshProjectList() {
-    const projectList = document.getElementById('ul-project-list');
+  refreshProjectListView() {
+    const projectList = document.querySelector('.project-list > .menu-list');
     projectList?.remove();
 
-    const projectMenuList = document.querySelector('.project-list > .menu-list');
+    const projectMenuList = document.querySelector('.project-list');
     projectMenuList?.appendChild(this.showProjectList());
   }
 
