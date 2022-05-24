@@ -99,4 +99,14 @@ class ProjectList {
   }
 }
 
-export { Priority, TodoItem, TodoList, Project, ProjectList }
+class FormItem {
+  formLabel?: HTMLLabelElement;
+  formInput: HTMLInputElement;
+
+  constructor(formInput: HTMLInputElement, formLabel?: HTMLLabelElement, ) {
+    this.formInput = formInput;
+    this.formLabel = formLabel;
+  }
+}
+
+export { Priority, TodoItem, TodoList, Project, ProjectList, FormItem }

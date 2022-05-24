@@ -189,8 +189,8 @@ class ProjectModalView {
     submitButton.setAttribute('type', 'button');
     submitButton.setAttribute('value', 'Add');
     submitButton.addEventListener('click', () => {
-      addFunction(new TodoModels.Project((projectTitleInput as HTMLInputElement).value, this.todoList));
-      (projectTitleInput as HTMLInputElement).value = '';
+      addFunction(new TodoModels.Project(projectTitleInput.value, this.todoList));
+      projectTitleInput.value = '';
     });
     
     form.appendChild(projectTitleLabel);
@@ -201,4 +201,63 @@ class ProjectModalView {
   }
 }
 
-export { TodoItemView, TodoListView, ProjectView, ProjectListView, ProjectModalView }
+class TodoItemModalView {
+
+  constructor() {
+
+  }
+
+  createViewElement(addFunction?: () => void): HTMLElement {
+    const modal = ModalView.createViewElement('Add todo task');
+    const modalContent = modal.querySelector('.modal-content')!;
+
+    const [todoItemTitleLabel, todoItemTitleInput] = DOMManipulation.createFormInput('text', 'todo-item-title', '', 'Name');
+    const [todoItemDescriptionLabel, todoItemDescriptionInput] = DOMManipulation.createFormInput('text', 'todo-item-description', '', 'Description');
+    const [todoItemDateLabel, todoItemDateInput] = DOMManipulation.createFormInput('date', 'todo-item-date', '', 'Due date');
+        
+    const formView = new FormView([
+      new TodoModels.FormItem(todoItemTitleInput, todoItemTitleLabel), 
+      new TodoModels.FormItem(todoItemDescriptionInput, todoItemDescriptionLabel), 
+      new TodoModels.FormItem(todoItemDateInput, todoItemDateLabel)
+    ]);
+    const form = formView.createViewElement('todo-item-form')
+
+    const [selectLabel, selectOptions] = DOMManipulation.selectInputMaker('Project', 'project-list', 'project-list', ['asdf', 'alksdfj']);
+    form.appendChild(selectLabel);
+    form.appendChild(selectOptions);
+
+    const submitButton = document.createElement('input');
+    submitButton.setAttribute('type', 'button');
+    submitButton.setAttribute('value', 'Add');
+    submitButton.addEventListener('click', () => {
+      addFunction;
+    });
+
+    form.appendChild(submitButton);
+    modalContent.appendChild(form);
+
+    return modal;
+  }
+}
+
+class FormView {
+  formItems: TodoModels.FormItem[];
+
+  constructor(formItems: TodoModels.FormItem[]) {
+    this.formItems = formItems;
+  }
+
+  createViewElement(formClass: string) {
+    const form = DOMManipulation.createElementWithClass('form', formClass);
+    this.formItems.forEach(item => {
+      if (item.formLabel) {
+        form.appendChild(item.formLabel);
+      }
+      form.appendChild(item.formInput);
+    });
+
+    return form;
+  }
+}
+
+export { TodoItemView, TodoListView, ProjectView, ProjectListView, ProjectModalView, TodoItemModalView }
