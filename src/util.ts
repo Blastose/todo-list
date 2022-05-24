@@ -5,7 +5,7 @@ class DOMManipulation {
     return element;
   }
 
-  static createFormInput(inputType: string, id: string, className: string, labelText: string) {
+  static createFormInput(inputType: string, id: string, className: string, labelText: string): HTMLElement[] {
     const label = document.createElement('label');
     label.setAttribute('for', id);
     label.textContent = labelText;

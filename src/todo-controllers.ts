@@ -62,18 +62,19 @@ class ProjectListController {
   projectListView: TodoViews.ProjectListView;
   modal: HTMLElement;
 
-  constructor(projectListModel: TodoModels.ProjectList, projectListView: TodoViews.ProjectListView) {
+  constructor(projectListModel: TodoModels.ProjectList, projectListView: TodoViews.ProjectListView, todoList: TodoModels.TodoList) {
     this.projectListModel = projectListModel;
     this.projectListView = projectListView;
-    this.modal = new TodoViews.ProjectModalView().createViewElement(
-      () => {
-      this.addProject(new TodoModels.Project('Controller new project', this.projectListModel.projects[0].todoList));
+    this.modal = new TodoViews.ProjectModalView(todoList).createViewElement(
+      (e: TodoModels.Project) => {
+      this.addProject(e);
       this.refreshProjectListView();
       this.modal.remove();
     });
 
     this.projectListView.addProjectButton.addEventListener('click', () => {
       document.querySelector('.container')?.prepend(this.modal);
+      document.getElementById('project-title')?.focus();
     });
   }
 

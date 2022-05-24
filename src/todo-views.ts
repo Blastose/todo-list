@@ -110,7 +110,7 @@ class ProjectListView {
     projectList.projects.forEach((project) => {
       const projectView = new ProjectView();
 
-      ul.appendChild(projectView.createViewElement(project, () => {}));
+      ul.appendChild(projectView.createViewElement(project, () => {console.log(project.title)}));
     });
 
     return menuList;
@@ -142,8 +142,13 @@ class ModalView {
 }
 
 class ProjectModalView {
+  todoList: TodoModels.TodoList
 
-  createViewElement(addFunction: () => void): HTMLElement {
+  constructor(todoList: TodoModels.TodoList) {
+    this.todoList = todoList;
+  }
+
+  createViewElement(addFunction: (e: TodoModels.Project) => void): HTMLElement {
     const modal = ModalView.createViewElement('Add project');
     const modalContent = modal.querySelector('.modal-content')!;
 
@@ -154,7 +159,10 @@ class ProjectModalView {
     const submitButton = document.createElement('input');
     submitButton.setAttribute('type', 'button');
     submitButton.setAttribute('value', 'Add');
-    submitButton.addEventListener('click', addFunction);
+    submitButton.addEventListener('click', () => {
+      addFunction(new TodoModels.Project((projectTitleInput as HTMLInputElement).value, this.todoList));
+      (projectTitleInput as HTMLInputElement).value = '';
+    });
     
     form.appendChild(projectTitleLabel);
     form.appendChild(projectTitleInput);
