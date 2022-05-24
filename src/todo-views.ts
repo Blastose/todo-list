@@ -148,7 +148,7 @@ class ProjectModalView {
     this.todoList = todoList;
   }
 
-  createViewElement(addFunction: (e: TodoModels.Project) => void): HTMLElement {
+  createViewElement(addFunction: (project: TodoModels.Project) => void): HTMLElement {
     const modal = ModalView.createViewElement('Add project');
     const modalContent = modal.querySelector('.modal-content')!;
 

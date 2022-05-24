@@ -66,8 +66,8 @@ class ProjectListController {
     this.projectListModel = projectListModel;
     this.projectListView = projectListView;
     this.modal = new TodoViews.ProjectModalView(todoList).createViewElement(
-      (e: TodoModels.Project) => {
-      this.addProject(e);
+      (project: TodoModels.Project) => {
+      this.addProject(project);
       this.refreshProjectListView();
       this.modal.remove();
     });
