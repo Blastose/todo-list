@@ -16,11 +16,16 @@ class TodoListController {
   todoListModel: TodoModels.TodoList;
   todoListView: TodoViews.TodoListView;
   projectListView: TodoViews.ProjectListView;
+  refreshProjectListView: (() => void) | undefined;
 
   constructor(todoListModel: TodoModels.TodoList, todoListView: TodoViews.TodoListView, projectListView: TodoViews.ProjectListView) {
     this.todoListModel = todoListModel;
     this.todoListView = todoListView;
     this.projectListView = projectListView;
+  }
+
+  setRefreshTodoListViewFunction(refreshProjectListViewFunction: () => void) {
+    this.refreshProjectListView = refreshProjectListViewFunction;
   }
 
   showList() {
@@ -37,6 +42,7 @@ class TodoListController {
   removeListItemAndRefreshView(id: string) {
     this.removeListItemById(id);
     this.refreshView();
+    this.refreshProjectListView!();
   }
 
   removeListItem(index: number) {
@@ -50,6 +56,7 @@ class TodoListController {
   addListItem(item: TodoModels.TodoItem) {
     this.todoListModel.add(item);
     this.refreshView();
+    this.refreshProjectListView!();
   }
 
   refreshView() {

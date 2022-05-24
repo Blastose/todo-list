@@ -21,6 +21,7 @@ projectListController.addProject(new TodoModels.Project('New Project', list));
 const listView = new TodoViews.TodoListView();
 const todoListController = new TodoControllers.TodoListController(list, listView, projectListView);
 todoListController.refreshView();
+todoListController.setRefreshTodoListViewFunction(projectListController.refreshProjectListView.bind(projectListController));
 
 projectListController.setRefreshTodoListViewFunction(todoListController.refreshView.bind(todoListController));
 projectListController.refreshProjectListView();
