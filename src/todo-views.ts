@@ -209,7 +209,7 @@ class TodoItemModalView {
 
   }
 
-  createViewElement(addFunction: (todoItem: TodoModels.TodoItem) => void): HTMLElement {
+  createViewElement(projectList: string[], addFunction: (todoItem: TodoModels.TodoItem) => void): HTMLElement {
     const modal = ModalView.createViewElement('Add todo task');
     const modalContent = modal.querySelector('.modal-content')!;
 
@@ -224,7 +224,9 @@ class TodoItemModalView {
     ]);
     const form = formView.createViewElement('todo-item-form')
 
-    const [selectLabel, selectOptions] = DOMManipulation.selectInputMaker('Project', 'project-list', 'project-list', ['asdf', 'alksdfj']);
+    const [selectLabel, selectOptions] = DOMManipulation.selectInputMaker(
+      'Project', 'project-list', 'project-list',
+       projectList);
     form.appendChild(selectLabel);
     form.appendChild(selectOptions);
 

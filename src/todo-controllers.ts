@@ -1,5 +1,6 @@
 import * as TodoModels from './todo-models';
 import * as TodoViews from './todo-views';
+import { DOMManipulation } from './util';
 import { v4 as uuidv4 } from 'uuid'
 
 class TodoItemController {
@@ -15,16 +16,19 @@ class TodoItemController {
 class TodoListController {
   todoListModel: TodoModels.TodoList;
   todoListView: TodoViews.TodoListView;
+  projectListModel: TodoModels.ProjectList;
   projectListView: TodoViews.ProjectListView;
   modal: HTMLElement;
   refreshProjectListView: (() => void) | undefined;
 
-  constructor(todoListModel: TodoModels.TodoList, todoListView: TodoViews.TodoListView, projectListView: TodoViews.ProjectListView) {
+  constructor(todoListModel: TodoModels.TodoList, todoListView: TodoViews.TodoListView, projectListModel: TodoModels.ProjectList, projectListView: TodoViews.ProjectListView) {
     this.todoListModel = todoListModel;
     this.todoListView = todoListView;
+    this.projectListModel = projectListModel;
     this.projectListView = projectListView;
 
     this.modal = new TodoViews.TodoItemModalView().createViewElement(
+      DOMManipulation.getProjectTitles(this.projectListModel), 
       (todoItem: TodoModels.TodoItem) => {
         this.addListItem(todoItem);
         this.modal.remove();
@@ -45,7 +49,18 @@ class TodoListController {
       );
   }
 
+  updateModal() {
+    this.modal = new TodoViews.TodoItemModalView().createViewElement(
+      DOMManipulation.getProjectTitles(this.projectListModel), 
+      (todoItem: TodoModels.TodoItem) => {
+        this.addListItem(todoItem);
+        this.modal.remove();
+      }
+    );
+  }
+
   showModal() {
+    this.updateModal();
     document.querySelector('.container')?.prepend(this.modal);
     document.getElementById('todo-item-title')?.focus();
   }

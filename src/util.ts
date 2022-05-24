@@ -49,6 +49,12 @@ class DOMManipulation {
     return new TodoModels.TodoItem(title, description, date ? new Date(date) : new Date(), TodoModels.Priority.none, false, uuidv4(), project);
   }
 
+  static getProjectTitles(projectList: TodoModels.ProjectList) {
+    return projectList.projects.map(project => {
+      return project.title;
+    });
+  }
+
 }
 
 export { DOMManipulation }
