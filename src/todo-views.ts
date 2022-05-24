@@ -201,6 +201,11 @@ class ProjectModalView {
     
     form.appendChild(projectTitleLabel);
     form.appendChild(projectTitleInput);
+
+    // Hack to prevent form from redirecting when only one form input on enter key press
+    const hidden = document.createElement('input');
+    hidden.setAttribute('hidden', '');
+    form.appendChild(hidden);
     form.appendChild(submitButton);
     
     return modal;
