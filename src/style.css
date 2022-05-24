@@ -57,6 +57,10 @@ ul {
   background-color: rgb(226, 226, 226);
 }
 
+.sidebar-active {
+  background-color: rgb(226, 226, 226);
+}
+
 .sidebar-item-content {
   margin: 8px 10px;
   cursor: pointer;

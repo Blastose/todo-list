@@ -2,6 +2,7 @@ import * as TodoModels from './todo-models';
 import { DOMManipulation } from './util';
 import { add, format, sub } from 'date-fns'
 import { v4 as uuidv4 } from 'uuid'
+import { es } from 'date-fns/locale';
 
 class TodoItemView {
 
@@ -59,11 +60,24 @@ class TodoItemView {
 
 class TodoListView {
 
-  createViewElement(list: TodoModels.TodoList, deleteFunction:  (id: string) => void, addFunction: (item: TodoModels.TodoItem) => void): HTMLElement {
+  createViewElement(
+    list: TodoModels.TodoList, 
+    deleteFunction:  (id: string) => void, 
+    addFunction: (item: TodoModels.TodoItem) => void,
+    filter?: string
+    ): HTMLElement
+  {
     const items = DOMManipulation.createElementWithClass('div', 'main-todo-items');
     list.todoList.forEach((item) => {
-      const itemView = new TodoItemView();
-      items.appendChild(itemView.createViewElement(item, deleteFunction));
+      if (filter) {
+        if (item.project === filter) {
+          const itemView = new TodoItemView();
+          items.appendChild(itemView.createViewElement(item, deleteFunction));
+        }
+      } else {
+        const itemView = new TodoItemView();
+        items.appendChild(itemView.createViewElement(item, deleteFunction));
+      }
     });
     
     const addButton = DOMManipulation.createElementWithClass('button', 'add');
@@ -97,20 +111,35 @@ class ProjectView {
 
 class ProjectListView {
   addProjectButton: HTMLElement;
+  active: string | undefined;
 
   constructor() {
     this.addProjectButton = document.querySelector('.add-project-button')!;
+    this.active = undefined;
   }
 
-  createViewElement(projectList: TodoModels.ProjectList): HTMLElement {
+  createViewElement(projectList: TodoModels.ProjectList, 
+    refreshProjectListViewFunction: () => void,
+    refreshTodoListViewFunction: () => void
+    ): HTMLElement 
+  {
     const menuList = DOMManipulation.createElementWithClass('div', 'menu-list');
     const ul = DOMManipulation.createElementWithClass('ul', 'ul-project-list');
     menuList.appendChild(ul);
 
     projectList.projects.forEach((project) => {
       const projectView = new ProjectView();
+      const projectViewElement = projectView.createViewElement(project, () => {
+        this.active = project.title;
+        refreshProjectListViewFunction();
+        refreshTodoListViewFunction();
+      });
+      
+      if (project.title === this.active) {
+        projectViewElement.classList.add('sidebar-active');
+      }
 
-      ul.appendChild(projectView.createViewElement(project, () => {console.log(project.title)}));
+      ul.appendChild(projectViewElement);
     });
 
     return menuList;

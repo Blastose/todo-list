@@ -15,17 +15,21 @@ class TodoItemController {
 class TodoListController {
   todoListModel: TodoModels.TodoList;
   todoListView: TodoViews.TodoListView;
+  projectListView: TodoViews.ProjectListView;
 
-  constructor(todoListModel: TodoModels.TodoList, todoListView: TodoViews.TodoListView) {
+  constructor(todoListModel: TodoModels.TodoList, todoListView: TodoViews.TodoListView, projectListView: TodoViews.ProjectListView) {
     this.todoListModel = todoListModel;
     this.todoListView = todoListView;
+    this.projectListView = projectListView;
   }
 
   showList() {
     return this.todoListView.createViewElement(
       this.todoListModel,
       this.removeListItemAndRefreshView.bind(this),
-      this.addListItem.bind(this));
+      this.addListItem.bind(this),
+      this.projectListView.active
+      );
   }
 
   // Create a separate function instead of using an arrow function
@@ -61,6 +65,7 @@ class ProjectListController {
   projectListModel: TodoModels.ProjectList;
   projectListView: TodoViews.ProjectListView;
   modal: HTMLElement;
+  refreshTodoListView: (() => void) | undefined;
 
   constructor(projectListModel: TodoModels.ProjectList, projectListView: TodoViews.ProjectListView, todoList: TodoModels.TodoList) {
     this.projectListModel = projectListModel;
@@ -78,8 +83,16 @@ class ProjectListController {
     });
   }
 
+  setRefreshTodoListViewFunction(refreshTodoListViewFunction: () => void) {
+    this.refreshTodoListView = refreshTodoListViewFunction;
+  }
+
   showProjectList(): HTMLElement {
-    return this.projectListView.createViewElement(this.projectListModel);
+    return this.projectListView.createViewElement(
+      this.projectListModel, 
+      this.refreshProjectListView.bind(this),
+      this.refreshTodoListView!
+      );
   }
 
   refreshProjectListView() {
