@@ -85,6 +85,10 @@ class TodoListView {
     addButton.addEventListener('click', () => {
       addFunction();
     });
+    const addButtonHeader = document.querySelector('.add-project-button-header');
+    addButtonHeader?.addEventListener('click', () => {
+      addFunction();
+    });
 
     items.appendChild(addButton);
     return items;
