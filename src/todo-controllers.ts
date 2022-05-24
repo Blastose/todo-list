@@ -16,12 +16,20 @@ class TodoListController {
   todoListModel: TodoModels.TodoList;
   todoListView: TodoViews.TodoListView;
   projectListView: TodoViews.ProjectListView;
+  modal: HTMLElement;
   refreshProjectListView: (() => void) | undefined;
 
   constructor(todoListModel: TodoModels.TodoList, todoListView: TodoViews.TodoListView, projectListView: TodoViews.ProjectListView) {
     this.todoListModel = todoListModel;
     this.todoListView = todoListView;
     this.projectListView = projectListView;
+
+    this.modal = new TodoViews.TodoItemModalView().createViewElement(
+      (todoItem: TodoModels.TodoItem) => {
+        this.addListItem(todoItem);
+        this.modal.remove();
+      }
+    );
   }
 
   setRefreshTodoListViewFunction(refreshProjectListViewFunction: () => void) {
@@ -32,9 +40,14 @@ class TodoListController {
     return this.todoListView.createViewElement(
       this.todoListModel,
       this.removeListItemAndRefreshView.bind(this),
-      this.addListItem.bind(this),
+      this.showModal.bind(this),
       this.projectListView.active
       );
+  }
+
+  showModal() {
+    document.querySelector('.container')?.prepend(this.modal);
+    document.getElementById('todo-item-title')?.focus();
   }
 
   // Create a separate function instead of using an arrow function

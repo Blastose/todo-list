@@ -25,6 +25,3 @@ todoListController.setRefreshTodoListViewFunction(projectListController.refreshP
 
 projectListController.setRefreshTodoListViewFunction(todoListController.refreshView.bind(todoListController));
 projectListController.refreshProjectListView();
-
-const todoItemModal = new TodoViews.TodoItemModalView();
-document.body.appendChild(todoItemModal.createViewElement());

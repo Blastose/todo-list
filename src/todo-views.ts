@@ -63,7 +63,7 @@ class TodoListView {
   createViewElement(
     list: TodoModels.TodoList, 
     deleteFunction:  (id: string) => void, 
-    addFunction: (item: TodoModels.TodoItem) => void,
+    addFunction: () => void,
     filter?: string
     ): HTMLElement
   {
@@ -82,7 +82,9 @@ class TodoListView {
     
     const addButton = DOMManipulation.createElementWithClass('button', 'add');
     addButton.textContent = 'Add';
-    addButton.addEventListener('click', () => addFunction(new TodoModels.TodoItem(uuidv4(), uuidv4(), new Date(), TodoModels.Priority.none, false, uuidv4(), 'My Project')));
+    addButton.addEventListener('click', () => {
+      addFunction();
+    });
 
     items.appendChild(addButton);
     return items;
@@ -181,7 +183,7 @@ class ProjectModalView {
     const modal = ModalView.createViewElement('Add project');
     const modalContent = modal.querySelector('.modal-content')!;
 
-    const form = DOMManipulation.createElementWithClass('form', 'project-form');
+    const form = (DOMManipulation.createElementWithClass('form', 'project-form') as HTMLFormElement);
     modalContent.appendChild(form);
 
     const [projectTitleLabel, projectTitleInput] = DOMManipulation.createFormInput('text', 'project-title', 'form-field', 'Name');
@@ -190,7 +192,7 @@ class ProjectModalView {
     submitButton.setAttribute('value', 'Add');
     submitButton.addEventListener('click', () => {
       addFunction(new TodoModels.Project(projectTitleInput.value, this.todoList));
-      projectTitleInput.value = '';
+      form.reset();
     });
     
     form.appendChild(projectTitleLabel);
@@ -207,7 +209,7 @@ class TodoItemModalView {
 
   }
 
-  createViewElement(addFunction?: () => void): HTMLElement {
+  createViewElement(addFunction: (todoItem: TodoModels.TodoItem) => void): HTMLElement {
     const modal = ModalView.createViewElement('Add todo task');
     const modalContent = modal.querySelector('.modal-content')!;
 
@@ -230,7 +232,8 @@ class TodoItemModalView {
     submitButton.setAttribute('type', 'button');
     submitButton.setAttribute('value', 'Add');
     submitButton.addEventListener('click', () => {
-      addFunction;
+      const todoItem = DOMManipulation.extractTodoItemFormValues((form as HTMLFormElement));
+      addFunction(todoItem);
     });
 
     form.appendChild(submitButton);
