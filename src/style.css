@@ -266,7 +266,7 @@ img.todo-item-delete {
 .modal-container {
   display: flex;
   justify-content: center;
-  padding: 64px;
+  padding: 64px 16px 64px 16px;
 }
 
 .modal-title {
@@ -314,4 +314,8 @@ img.todo-item-delete {
   .main > .wrapper {
     padding: 32px 64px 128px 64px;
   }
+
+  .modal-container {
+    padding: 64px;
+  }  
 }
