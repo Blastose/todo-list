@@ -96,7 +96,7 @@ ul {
   margin: 8px 10px;
   cursor: pointer;
   display: grid;
-  grid-template-columns: min-content 1fr;
+  grid-template-columns: 1fr min-content;
   align-items: center;
   gap: 10px;
 }
@@ -189,6 +189,7 @@ ul {
 
   display: grid;
   grid-template-columns: 10px 1fr;
+  transition-duration: 0.2s;
 }
 
 .todo-item-card:hover .todo-item-highlight {
@@ -221,8 +222,8 @@ ul {
   grid-area: description;
 }
 
-.todo-item-title,
-.todo-item-description {
+.todo-item-card:not(:hover) .todo-item-title,
+.todo-item-card:not(:hover) .todo-item-description {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
