@@ -249,10 +249,17 @@ class TodoItemModalView {
     const form = formView.createViewElement('todo-item-form')
 
     const [selectLabel, selectOptions] = DOMManipulation.selectInputMaker(
-      'Project', 'project-list', 'project-list',
-       projectList);
+      'Project', 'project-list', 'project-list', 
+      projectList);
     form.appendChild(selectLabel);
     form.appendChild(selectOptions);
+
+    const [selectPrioLabel, selectPrioOptions] = DOMManipulation.selectInputMaker(
+      'Priority', 'priority-list', 'priority-list', 
+      // Object values of enums include the number values as well so we need to filter them out
+      (Object.values(TodoModels.Priority)).filter(value => typeof value === 'string') as string[]);
+    form.appendChild(selectPrioLabel);
+    form.appendChild(selectPrioOptions);
 
     const submitButton = document.createElement('input');
     submitButton.setAttribute('type', 'button');

@@ -44,9 +44,12 @@ class DOMManipulation {
     const date = (form.querySelector('#todo-item-date') as HTMLInputElement).value;
     const select = (form.querySelector('#project-list') as HTMLSelectElement);
     const project = select.options[select.selectedIndex].value;
+    const selectPrio = (form.querySelector('#priority-list') as HTMLSelectElement);
+    const priority = selectPrio.options[selectPrio.selectedIndex].value;
     form.reset();
 
-    return new TodoModels.TodoItem(title, description, date ? new Date(date) : new Date(), TodoModels.Priority.none, false, uuidv4(), project);
+    // Need to use keyof typeof 'Enum' to work with --noImplicitAny
+    return new TodoModels.TodoItem(title, description, date ? new Date(date) : new Date(), TodoModels.Priority[priority as keyof typeof TodoModels.Priority], false, uuidv4(), project);
   }
 
   static getProjectTitles(projectList: TodoModels.ProjectList) {
