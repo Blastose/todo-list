@@ -96,7 +96,10 @@ class TodoListView {
       addFunction();
     });
     const addButtonHeader = document.querySelector('.add-project-button-header');
-    addButtonHeader?.addEventListener('click', () => {
+    // Remove event previous listeners by replacing the node with a clone
+    const newAddButtonHeader = addButtonHeader?.cloneNode(true);
+    addButtonHeader?.parentNode?.replaceChild(newAddButtonHeader!, addButtonHeader);
+    newAddButtonHeader?.addEventListener('click', () => {
       addFunction();
     });
 
