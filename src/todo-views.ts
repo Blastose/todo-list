@@ -347,6 +347,10 @@ class UndoView {
     card.appendChild(undoButton);
     card.appendChild(closeButton);
 
+    setTimeout(() => {
+      view.remove();
+    }, 5000)
+
     return view;
   }
 }
