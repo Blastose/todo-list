@@ -298,4 +298,36 @@ class FormView {
   }
 }
 
-export { TodoItemView, TodoListView, ProjectView, ProjectListView, ProjectModalView, TodoItemFormModalView }
+class UndoView {
+  undoFunction: () => void;
+
+  constructor(undoFunction: () => void) {
+    this.undoFunction = undoFunction;
+  }
+
+  createViewElement() {
+    const view = DOMManipulation.createElementWithClass('div', 'undo-container');
+    const card = DOMManipulation.createElementWithClass('div', 'undo-card');
+    view.appendChild(card);
+    const undoText = DOMManipulation.createElementWithClass('span', 'undo');
+    undoText.textContent = 'Undo deletion?';
+    const undoButton = DOMManipulation.createElementWithClass('button', 'btn-undo-delete');
+    undoButton.addEventListener('click', () => {
+      this.undoFunction();
+      view.remove();
+    });
+    undoButton.textContent = 'Undo';
+
+    const closeButton = DOMManipulation.createElementWithClass('button', 'btn-undo-close');
+    closeButton.addEventListener('click', () => view.remove());
+    closeButton.textContent = 'X';
+
+    card.appendChild(undoText);
+    card.appendChild(undoButton);
+    card.appendChild(closeButton);
+
+    return view;
+  }
+}
+
+export { TodoItemView, TodoListView, ProjectView, ProjectListView, ProjectModalView, TodoItemFormModalView, UndoView }

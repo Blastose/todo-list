@@ -319,6 +319,24 @@ img.todo-item-delete {
   background-color: rgb(255, 170, 170);
 }
 
+.undo-container {
+  position: fixed;
+  bottom: 8px;
+  padding: 8px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid black;
+  background-color: white;
+  border-radius: 8px;
+}
+
+.undo-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
 @media only screen and (min-width: 800px) { 
   .todolist-app {
     display: grid;

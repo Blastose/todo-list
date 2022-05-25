@@ -43,25 +43,30 @@ class TodoList {
   remove(index: number) {
     console.log(this);
     console.log(this.todoList[index]);
+    const item = this.todoList[index];
     this.todoList.splice(index, 1);
+    return item;
   }
 
   removeById(id: string) {
-    let foundIndex = -1;
-    // Can use Array.prototype.findIndex() instead
-    for (let i = 0; i < this.todoList.length; i++) {
-      if (this.todoList[i].id === id) {
-        foundIndex = i;
-        break;
-      }
-    };
+    const foundIndex = this.getIndexOfId(id);
     if (foundIndex !== -1) {
-      this.remove(foundIndex);
+      return this.remove(foundIndex);
     }
+  }
+
+  pop() {
+    return this.todoList.pop();
   }
 
   update(index: number, todoItem: TodoItem) {
     this.todoList.splice(index, 1, todoItem);
+  }
+
+  getIndexOfId(id: string) {
+    return this.todoList.findIndex((item) => {
+      return item.id === id;
+    });
   }
 
 }

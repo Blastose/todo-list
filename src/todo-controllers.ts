@@ -16,24 +16,40 @@ class TodoItemController {
 class TodoListController {
   todoListModel: TodoModels.TodoList;
   todoListView: TodoViews.TodoListView;
+  deletedTodoListModel: TodoModels.TodoList;
   projectListModel: TodoModels.ProjectList;
   projectListView: TodoViews.ProjectListView;
-  modal: HTMLElement;
+  addItemModal: HTMLElement;
+  undoDeletionModal: TodoViews.UndoView;
   refreshProjectListView: (() => void) | undefined;
 
-  constructor(todoListModel: TodoModels.TodoList, todoListView: TodoViews.TodoListView, projectListModel: TodoModels.ProjectList, projectListView: TodoViews.ProjectListView) {
+  constructor(
+    todoListModel: TodoModels.TodoList, 
+    todoListView: TodoViews.TodoListView, 
+    projectListModel: TodoModels.ProjectList, 
+    projectListView: TodoViews.ProjectListView,
+    deletedTodoListModel: TodoModels.TodoList
+    )
+  {
     this.todoListModel = todoListModel;
     this.todoListView = todoListView;
     this.projectListModel = projectListModel;
     this.projectListView = projectListView;
+    this.deletedTodoListModel = deletedTodoListModel;
 
-    this.modal = new TodoViews.TodoItemFormModalView().createViewElement(
+    this.addItemModal = new TodoViews.TodoItemFormModalView().createViewElement(
       DOMManipulation.getProjectTitles(this.projectListModel), 
       (todoItem: TodoModels.TodoItem) => {
         this.addListItem(todoItem);
-        this.modal.remove();
+        this.addItemModal.remove();
       }
     );
+
+    this.undoDeletionModal = new TodoViews.UndoView(() => {
+      this.undoItemDeletion();
+      this.refreshView.bind(this)();
+      this.refreshProjectListView!.bind(this)();
+    });
   }
 
   setRefreshTodoListViewFunction(refreshProjectListViewFunction: () => void) {
@@ -50,19 +66,23 @@ class TodoListController {
   }
 
   updateModal() {
-    this.modal = new TodoViews.TodoItemFormModalView().createViewElement(
+    this.addItemModal = new TodoViews.TodoItemFormModalView().createViewElement(
       DOMManipulation.getProjectTitles(this.projectListModel), 
       (todoItem: TodoModels.TodoItem) => {
         this.addListItem(todoItem);
-        this.modal.remove();
+        this.addItemModal.remove();
       }
     );
   }
 
   showModal() {
     this.updateModal();
-    document.querySelector('.container')?.prepend(this.modal);
+    document.querySelector('.container')?.prepend(this.addItemModal);
     document.getElementById('todo-item-title')?.focus();
+  }
+
+  showUndoDeleteModal() {
+    document.querySelector('.container')?.prepend(this.undoDeletionModal.createViewElement());
   }
 
   // Create a separate function instead of using an arrow function
@@ -71,6 +91,7 @@ class TodoListController {
     this.removeListItemById(id);
     this.refreshView();
     this.refreshProjectListView!();
+    this.showUndoDeleteModal();
   }
 
   removeListItem(index: number) {
@@ -78,13 +99,24 @@ class TodoListController {
   }
 
   removeListItemById(id: string) {
-    this.todoListModel.removeById(id);
+    const item = this.todoListModel.removeById(id);
+    if (item) {
+      this.deletedTodoListModel.add(item);
+    }
   }
 
   addListItem(item: TodoModels.TodoItem) {
     this.todoListModel.add(item);
     this.refreshView();
     this.refreshProjectListView!();
+  }
+
+  undoItemDeletion() {
+    const deletedItem = this.deletedTodoListModel.pop();
+    if (deletedItem) {
+      this.todoListModel.add(deletedItem);
+      console.log(deletedItem);
+    }
   }
 
   refreshView() {
