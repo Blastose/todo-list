@@ -134,22 +134,25 @@ class ProjectListView {
   addProjectButton: HTMLElement;
   showHideProjectListButton: HTMLElement;
   active: string | undefined;
+  hide: boolean;
 
   constructor() {
     this.addProjectButton = document.querySelector('.add-project-button')!;
     this.showHideProjectListButton = document.querySelector('.project-list-show-hide-button')!;
     this.showHideProjectListButton.addEventListener('click', this.toggleProjectListCollapse.bind(this));
     this.active = undefined;
+    this.hide = false;
   }
 
   toggleProjectListCollapse() {
     const list = document.querySelector('.project-list > .menu-list')!;
-    console.log(list);
     list.classList.toggle('hide');
     if (this.showHideProjectListButton.textContent === '▼') {
       this.showHideProjectListButton.textContent = '▶';
+      this.hide = true;
     } else {
       this.showHideProjectListButton.textContent = '▼';
+      this.hide = false;
     }
   }
 
@@ -178,6 +181,10 @@ class ProjectListView {
 
       ul.appendChild(projectViewElement);
     });
+
+    if (this.hide) {
+      menuList.classList.add('hide');
+    }
 
     return menuList;
   }
