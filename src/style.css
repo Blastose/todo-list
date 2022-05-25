@@ -4,12 +4,9 @@ body {
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.container {
-  height: 100vh;
-}
-
 .todolist-app {
   height: 100%;
+  min-height: 100vh;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: min-content 1fr;
@@ -117,6 +114,9 @@ ul {
   background-color: rgb(148, 203, 255);
   grid-area: header;
   padding: 12px 48px;
+
+  position: sticky;
+  top: 0;
 }
 
 .header-content {
