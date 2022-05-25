@@ -6,7 +6,12 @@ import { es } from 'date-fns/locale';
 
 class TodoItemView {
 
-  createViewElement(todoItem: TodoModels.TodoItem, deleteFunction: (id: string) => void): HTMLElement {
+  createViewElement(
+    todoItem: TodoModels.TodoItem, 
+    deleteFunction: (id: string) => void,
+    refreshProjectListViewFunction: () => void
+    ): HTMLElement
+  {
     const card = DOMManipulation.createElementWithClass('div', 'todo-item-card');
     const highlight = DOMManipulation.createElementWithClass('div', 'todo-item-highlight');
     const content = DOMManipulation.createElementWithClass('div', 'todo-item-content');
@@ -29,6 +34,7 @@ class TodoItemView {
       } else {
         todoItem.completed = false;
       }
+      refreshProjectListViewFunction();
     });
     labelCheckbox.appendChild(checkbox);
 
@@ -76,6 +82,7 @@ class TodoListView {
     list: TodoModels.TodoList, 
     deleteFunction:  (id: string) => void, 
     addFunction: () => void,
+    refreshProjectListViewFunction: () => void,
     filter?: string
     ): HTMLElement
   {
@@ -84,11 +91,11 @@ class TodoListView {
       if (filter) {
         if (item.project === filter) {
           const itemView = new TodoItemView();
-          items.appendChild(itemView.createViewElement(item, deleteFunction));
+          items.appendChild(itemView.createViewElement(item, deleteFunction, refreshProjectListViewFunction));
         }
       } else {
         const itemView = new TodoItemView();
-        items.appendChild(itemView.createViewElement(item, deleteFunction));
+        items.appendChild(itemView.createViewElement(item, deleteFunction, refreshProjectListViewFunction));
       }
     });
     

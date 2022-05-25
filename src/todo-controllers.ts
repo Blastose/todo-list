@@ -61,6 +61,7 @@ class TodoListController {
       this.todoListModel,
       this.removeListItemAndRefreshView.bind(this),
       this.showModal.bind(this),
+      this.refreshProjectListView!,
       this.projectListView.active
       );
   }

@@ -83,7 +83,7 @@ class Project {
   getCount() {
     let count = 0;
     this.todoList.todoList.forEach((item) => {
-      if (item.project === this.title) {
+      if (item.project === this.title && !item.completed) {
         count += 1;
       }
     });
