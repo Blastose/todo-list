@@ -132,11 +132,25 @@ class ProjectView {
 
 class ProjectListView {
   addProjectButton: HTMLElement;
+  showHideProjectListButton: HTMLElement;
   active: string | undefined;
 
   constructor() {
     this.addProjectButton = document.querySelector('.add-project-button')!;
+    this.showHideProjectListButton = document.querySelector('.project-list-show-hide-button')!;
+    this.showHideProjectListButton.addEventListener('click', this.toggleProjectListCollapse.bind(this));
     this.active = undefined;
+  }
+
+  toggleProjectListCollapse() {
+    const list = document.querySelector('.project-list > .menu-list')!;
+    console.log(list);
+    list.classList.toggle('hide');
+    if (this.showHideProjectListButton.textContent === '▼') {
+      this.showHideProjectListButton.textContent = '▶';
+    } else {
+      this.showHideProjectListButton.textContent = '▼';
+    }
   }
 
   createViewElement(projectList: TodoModels.ProjectList, 
