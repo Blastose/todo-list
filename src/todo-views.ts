@@ -137,6 +137,8 @@ class ProjectListView {
       const projectView = new ProjectView();
       const projectViewElement = projectView.createViewElement(project, () => {
         this.active = project.title;
+        const listTitle = document.querySelector('.main-title-text');
+        listTitle!.textContent = project.title;
         refreshProjectListViewFunction();
         refreshTodoListViewFunction();
       });
