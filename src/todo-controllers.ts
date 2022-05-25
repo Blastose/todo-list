@@ -1,7 +1,6 @@
 import * as TodoModels from './todo-models';
 import * as TodoViews from './todo-views';
 import { DOMManipulation } from './util';
-import { v4 as uuidv4 } from 'uuid'
 
 class TodoItemController {
   todoItemModel: TodoModels.TodoItem;
@@ -61,6 +60,7 @@ class TodoListController {
       this.todoListModel,
       this.removeListItemAndRefreshView.bind(this),
       this.showModal.bind(this),
+      this.showEditModal.bind(this),
       this.refreshProjectListView!,
       this.projectListView.active
       );
@@ -84,6 +84,19 @@ class TodoListController {
 
   showUndoDeleteModal() {
     document.querySelector('.container')?.prepend(this.undoDeletionModal.createViewElement());
+  }
+
+  showEditModal(todoItem: TodoModels.TodoItem) {
+    const editModal = new TodoViews.TodoItemEditFormModalView().createViewElement(
+      DOMManipulation.getProjectTitles(this.projectListModel),
+      todoItem,
+      (newTodoItem: TodoModels.TodoItem) => {
+        this.editListItem(todoItem, newTodoItem);
+        editModal.remove();
+      },
+    );
+    document.querySelector('.container')?.prepend(editModal);
+    document.getElementById('todo-item-title')?.focus();
   }
 
   // Create a separate function instead of using an arrow function
@@ -118,6 +131,12 @@ class TodoListController {
       this.todoListModel.add(deletedItem);
       console.log(deletedItem);
     }
+  }
+
+  editListItem(todoItem: TodoModels.TodoItem, newTodoItem: TodoModels.TodoItem) {
+    Object.assign(todoItem, newTodoItem);
+    this.refreshView();
+    this.refreshProjectListView!();
   }
 
   refreshView() {

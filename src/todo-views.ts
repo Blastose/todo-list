@@ -1,14 +1,13 @@
 import * as TodoModels from './todo-models';
 import { DOMManipulation } from './util';
-import { add, format, sub } from 'date-fns'
-import { v4 as uuidv4 } from 'uuid'
-import { es } from 'date-fns/locale';
+import { format } from 'date-fns'
 
 class TodoItemView {
 
   createViewElement(
-    todoItem: TodoModels.TodoItem, 
+    todoItem: TodoModels.TodoItem,
     deleteFunction: (id: string) => void,
+    editFunction: (todoItem: TodoModels.TodoItem) => void,
     refreshProjectListViewFunction: () => void
     ): HTMLElement
   {
@@ -55,6 +54,9 @@ class TodoItemView {
     const editButton = DOMManipulation.createElementWithClass('img', 'todo-item-edit');
     editButton.setAttribute('src', editSvgPath);
     editButton.setAttribute('title', 'Edit');
+    editButton.addEventListener('click', () => {
+       editFunction(todoItem);
+    });
     const deleteSvgPath = require('./images/delete.svg');
     const deleteButton = DOMManipulation.createElementWithClass('img', 'todo-item-delete');
     deleteButton.setAttribute('src', deleteSvgPath);
@@ -82,6 +84,7 @@ class TodoListView {
     list: TodoModels.TodoList, 
     deleteFunction:  (id: string) => void, 
     addFunction: () => void,
+    editFunction: (todoItem: TodoModels.TodoItem) => void,
     refreshProjectListViewFunction: () => void,
     filter?: string
     ): HTMLElement
@@ -91,11 +94,15 @@ class TodoListView {
       if (filter) {
         if (item.project === filter) {
           const itemView = new TodoItemView();
-          items.appendChild(itemView.createViewElement(item, deleteFunction, refreshProjectListViewFunction));
+          items.appendChild(itemView.createViewElement(
+            item, deleteFunction, editFunction, refreshProjectListViewFunction
+            ));
         }
       } else {
         const itemView = new TodoItemView();
-        items.appendChild(itemView.createViewElement(item, deleteFunction, refreshProjectListViewFunction));
+        items.appendChild(itemView.createViewElement(
+          item, deleteFunction, editFunction, refreshProjectListViewFunction
+          ));
       }
     });
     
@@ -257,14 +264,11 @@ class ProjectModalView {
   }
 }
 
-class TodoItemFormModalView {
-
-  constructor() {
-
-  }
-
-  createViewElement(projectList: string[], addFunction: (todoItem: TodoModels.TodoItem) => void): HTMLElement {
-    const modal = ModalView.createViewElement('Add todo task');
+class TodoItemFormModalBase {
+  static createViewElement(modalTitle: string, projectList: string[])
+  :[HTMLElement, HTMLElement, [HTMLInputElement, HTMLInputElement, HTMLInputElement, HTMLElement, HTMLElement, HTMLInputElement]]
+  {
+    const modal = ModalView.createViewElement(modalTitle);
     const modalContent = modal.querySelector('.modal-content')!;
 
     const [todoItemTitleLabel, todoItemTitleInput] = DOMManipulation.createFormInput('text', 'todo-item-title', '', 'Name');
@@ -293,14 +297,69 @@ class TodoItemFormModalView {
 
     const submitButton = document.createElement('input');
     submitButton.setAttribute('type', 'button');
+
+    form.appendChild(submitButton);
+    modalContent.appendChild(form);
+
+    return [modal, form, [todoItemTitleInput, todoItemDescriptionInput, todoItemDateInput, selectOptions, selectPrioOptions, submitButton]];
+  }
+}
+
+class TodoItemFormModalView {
+
+  createViewElement(projectList: string[], addFunction: (todoItem: TodoModels.TodoItem) => void): HTMLElement {
+    const [modal, form, 
+      [
+        todoItemTitleInput, 
+        todoItemDescriptionInput, 
+        todoItemDateInput, 
+        selectOptions,
+        selectPrioOptions,
+        submitButton
+      ]] = TodoItemFormModalBase.createViewElement('Add todo task', projectList);
+
     submitButton.setAttribute('value', 'Add');
     submitButton.addEventListener('click', () => {
       const todoItem = DOMManipulation.extractTodoItemFormValues((form as HTMLFormElement));
       addFunction(todoItem);
     });
 
-    form.appendChild(submitButton);
-    modalContent.appendChild(form);
+    return modal;
+  }
+}
+
+class TodoItemEditFormModalView {
+
+  createViewElement(projectList: string[], todoItem: TodoModels.TodoItem, editFunction: (todoItem: TodoModels.TodoItem) => void): HTMLElement {
+    const [modal, form, 
+      [
+        todoItemTitleInput, 
+        todoItemDescriptionInput, 
+        todoItemDateInput, 
+        selectOptions,
+        selectPrioOptions,
+        submitButton
+      ]] = TodoItemFormModalBase.createViewElement('Edit todo task', projectList);
+
+    todoItemTitleInput.value = todoItem.title;
+    todoItemDescriptionInput.value = todoItem.description;
+    todoItemDateInput.value = format(todoItem.dueDate, 'yyyy-MM-dd');
+    selectOptions.childNodes.forEach(child => {
+      if ((child as HTMLOptionElement).value === todoItem.project) {
+        (child as HTMLOptionElement).selected = true;
+      }
+    });
+    selectPrioOptions.childNodes.forEach(child => {
+      if ((child as HTMLOptionElement).value === TodoModels.Priority[todoItem.priority]) {
+        (child as HTMLOptionElement).selected = true;
+      }
+    });
+
+    submitButton.setAttribute('value', 'Save');
+    submitButton.addEventListener('click', () => {
+      const newTodoItem = DOMManipulation.extractTodoItemFormValues((form as HTMLFormElement));
+      editFunction(newTodoItem);
+    });
 
     return modal;
   }
@@ -362,4 +421,4 @@ class UndoView {
   }
 }
 
-export { TodoItemView, TodoListView, ProjectView, ProjectListView, ProjectModalView, TodoItemFormModalView, UndoView }
+export { TodoItemView, TodoListView, ProjectView, ProjectListView, ProjectModalView, TodoItemFormModalView, TodoItemEditFormModalView, UndoView }
