@@ -310,11 +310,11 @@ class TodoItemFormModalView {
   createViewElement(projectList: string[], addFunction: (todoItem: TodoModels.TodoItem) => void): HTMLElement {
     const [modal, form, 
       [
-        todoItemTitleInput, 
-        todoItemDescriptionInput, 
-        todoItemDateInput, 
-        selectOptions,
-        selectPrioOptions,
+        , 
+        , 
+        , 
+        ,
+        ,
         submitButton
       ]] = TodoItemFormModalBase.createViewElement('Add todo task', projectList);
 
