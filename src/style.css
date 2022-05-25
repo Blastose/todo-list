@@ -227,6 +227,15 @@ ul {
 .todo-item-actions {
   grid-area: actions;
 
+  display: none;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.todo-item-card:hover .todo-item-actions {
+  grid-area: actions;
+
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
