@@ -18,7 +18,6 @@ class TodoListController {
   deletedTodoListModel: TodoModels.TodoList;
   projectListModel: TodoModels.ProjectList;
   projectListView: TodoViews.ProjectListView;
-  addItemModal: HTMLElement;
   undoDeletionModal: TodoViews.UndoView;
   refreshProjectListView: (() => void) | undefined;
 
@@ -35,14 +34,6 @@ class TodoListController {
     this.projectListModel = projectListModel;
     this.projectListView = projectListView;
     this.deletedTodoListModel = deletedTodoListModel;
-
-    this.addItemModal = new TodoViews.TodoItemFormModalView().createViewElement(
-      DOMManipulation.getProjectTitles(this.projectListModel), 
-      (todoItem: TodoModels.TodoItem) => {
-        this.addListItem(todoItem);
-        this.addItemModal.remove();
-      }
-    );
 
     this.undoDeletionModal = new TodoViews.UndoView(() => {
       this.undoItemDeletion();
@@ -66,19 +57,15 @@ class TodoListController {
       );
   }
 
-  updateModal() {
-    this.addItemModal = new TodoViews.TodoItemFormModalView().createViewElement(
+  showModal() {
+    const addItemModal = new TodoViews.TodoItemFormModalView().createViewElement(
       DOMManipulation.getProjectTitles(this.projectListModel), 
       (todoItem: TodoModels.TodoItem) => {
         this.addListItem(todoItem);
-        this.addItemModal.remove();
+        addItemModal.remove();
       }
     );
-  }
-
-  showModal() {
-    this.updateModal();
-    document.querySelector('.container')?.prepend(this.addItemModal);
+    document.querySelector('.container')?.prepend(addItemModal);
     document.getElementById('todo-item-title')?.focus();
   }
 
