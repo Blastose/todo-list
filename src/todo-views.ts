@@ -18,6 +18,9 @@ class TodoItemView {
     const checkbox = document.createElement('input');
     checkbox.setAttribute('type', 'checkbox');
     checkbox.setAttribute('id', todoItem.id);
+    if (todoItem.completed) {
+      checkbox.checked = true;
+    }
     checkbox.addEventListener('change', (e) => {
       if ((e.currentTarget! as HTMLInputElement).checked) {
         todoItem.completed = true;
