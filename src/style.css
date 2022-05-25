@@ -295,6 +295,30 @@ img.todo-item-delete {
   gap: 12px;
 }
 
+.prio-low:hover > .todo-item-highlight {
+  background-color: rgb(107, 207, 128);
+}
+
+.prio-medium:hover > .todo-item-highlight {
+  background-color: rgb(255, 199, 94);
+}
+
+.prio-high:hover > .todo-item-highlight {
+  background-color: rgb(255, 0, 0);
+}
+
+.prio-low.todo-item-card {
+  background-color: rgb(184, 255, 200);;
+}
+
+.prio-medium.todo-item-card {
+  background-color: rgb(255, 238, 206);;
+}
+
+.prio-high.todo-item-card {
+  background-color: rgb(255, 170, 170);
+}
+
 @media only screen and (min-width: 800px) { 
   .todolist-app {
     display: grid;

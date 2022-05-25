@@ -13,6 +13,8 @@ class TodoItemView {
     card.appendChild(highlight);
     card.appendChild(content);
 
+    card.classList.add(`prio-${TodoModels.Priority[todoItem.priority]}`);
+
     const labelCheckbox = DOMManipulation.createElementWithClass('label', 'todo-item-checkbox');
     labelCheckbox.setAttribute('for', todoItem.id);
     const checkbox = document.createElement('input');
