@@ -18,6 +18,13 @@ class TodoItemView {
     const checkbox = document.createElement('input');
     checkbox.setAttribute('type', 'checkbox');
     checkbox.setAttribute('id', todoItem.id);
+    checkbox.addEventListener('change', (e) => {
+      if ((e.currentTarget! as HTMLInputElement).checked) {
+        todoItem.completed = true;
+      } else {
+        todoItem.completed = false;
+      }
+    });
     labelCheckbox.appendChild(checkbox);
 
     const title = DOMManipulation.createElementWithClass('div', 'todo-item-title');
