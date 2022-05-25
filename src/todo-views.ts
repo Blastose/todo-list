@@ -227,7 +227,7 @@ class ProjectModalView {
   }
 }
 
-class TodoItemModalView {
+class TodoItemFormModalView {
 
   constructor() {
 
@@ -296,4 +296,4 @@ class FormView {
   }
 }
 
-export { TodoItemView, TodoListView, ProjectView, ProjectListView, ProjectModalView, TodoItemModalView }
+export { TodoItemView, TodoListView, ProjectView, ProjectListView, ProjectModalView, TodoItemFormModalView }

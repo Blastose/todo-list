@@ -27,7 +27,7 @@ class TodoListController {
     this.projectListModel = projectListModel;
     this.projectListView = projectListView;
 
-    this.modal = new TodoViews.TodoItemModalView().createViewElement(
+    this.modal = new TodoViews.TodoItemFormModalView().createViewElement(
       DOMManipulation.getProjectTitles(this.projectListModel), 
       (todoItem: TodoModels.TodoItem) => {
         this.addListItem(todoItem);
@@ -50,7 +50,7 @@ class TodoListController {
   }
 
   updateModal() {
-    this.modal = new TodoViews.TodoItemModalView().createViewElement(
+    this.modal = new TodoViews.TodoItemFormModalView().createViewElement(
       DOMManipulation.getProjectTitles(this.projectListModel), 
       (todoItem: TodoModels.TodoItem) => {
         this.addListItem(todoItem);
