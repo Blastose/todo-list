@@ -445,7 +445,7 @@ class UndoView {
 }
 
 class ConfirmModal {
-  createViewElement(projectName: string | undefined, todoList: TodoModels.TodoList, deleteFunction: () => void) {
+  createViewElement(projectName: string | undefined, todoList: TodoModels.TodoList, deleteFunction: (projectName: string) => void) {
     const modal = ModalView.createViewElement('Delete project?');
     const modalContent = modal.querySelector('.modal-content')!;
 
@@ -467,8 +467,10 @@ class ConfirmModal {
     modalContent.appendChild(buttonsDiv);
 
     deleteButton.addEventListener('click', () => {
-      deleteFunction();
-      modal.remove();
+      if (projectName && projectName !== 'Default') {
+        deleteFunction(projectName);
+        modal.remove();
+      }
     });
     cancelButton.addEventListener('click', () => { modal.remove() });
 

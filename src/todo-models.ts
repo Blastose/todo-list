@@ -55,6 +55,14 @@ class TodoList {
     }
   }
 
+  removeAllWithProjectName(projectName: string) {
+    let index = this.getIndexOfProjectName(projectName);
+    while (index !== -1) {
+      this.remove(index);
+      index = this.getIndexOfProjectName(projectName);
+    }
+  }
+
   pop() {
     return this.todoList.pop();
   }
@@ -67,6 +75,12 @@ class TodoList {
     return this.todoList.findIndex((item) => {
       return item.id === id;
     });
+  }
+
+  getIndexOfProjectName(projectName: string) {
+    return this.todoList.findIndex((item) => {
+      return item.project === projectName;
+    })
   }
 
   count(projectName: string) {
@@ -111,6 +125,25 @@ class ProjectList {
 
   addProject(project: Project) {
     this.projects.push(project);
+  }
+
+  removeProject(index: number) {
+    const item = this.projects[index];
+    this.projects.splice(index, 1);
+    return item;
+  }
+
+  removeProjectByName(projectName: string) {
+    const foundIndex = this.getIndexOfProjectName(projectName);
+    if (foundIndex !== -1) {
+      return this.removeProject(foundIndex);
+    }
+  }
+  
+  getIndexOfProjectName(projectName: string) {
+    return this.projects.findIndex((item) => {
+      return item.title === projectName;
+    });
   }
 }
 

@@ -196,13 +196,19 @@ class ProjectListController {
     const deleteProjectModal = new TodoViews.ConfirmModal().createViewElement(
       this.projectListView.active,
       this.todoList,
-      this.deleteProject
+      this.deleteProject.bind(this)
     );
     document.querySelector('.container')?.prepend(deleteProjectModal);
   }
 
-  deleteProject() {
-    console.log('delete project?');
+  deleteProject(projectName: string) {
+    this.projectListModel.removeProjectByName(projectName);
+    this.projectListView.active = 'Default';
+    const listTitle = document.querySelector('.main-title-text');
+    listTitle!.textContent = 'Default';
+    this.todoList.removeAllWithProjectName(projectName);
+    this.refreshProjectListView();
+    this.refreshTodoListView!();
   }
 
   validAddProjectTitle(newProjectTitle: string): boolean {
