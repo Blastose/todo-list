@@ -256,7 +256,8 @@ class ProjectListController {
   }
 
   validAddProjectTitle(newProjectTitle: string): boolean {
-    if (newProjectTitle === '') {
+    const invalidTitles = ['', 'Today', 'This week', 'Next week'];
+    if (invalidTitles.includes(newProjectTitle)) {
       return false;
     }
     return !DOMManipulation.getProjectTitles(this.projectListModel).includes(newProjectTitle);

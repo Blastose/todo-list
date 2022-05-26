@@ -95,11 +95,11 @@ class TodoListView {
     const items = DOMManipulation.createElementWithClass('div', 'main-todo-items');
     list.todoList.forEach((item) => {
       if (filter) {
-        if (item.project === filter) {
+        if (item.project === filter || item.dueDateWithinTime(filter)) {
           const itemView = new TodoItemView();
           items.appendChild(itemView.createViewElement(
             item, deleteFunction, editFunction, refreshProjectListViewFunction
-            ));
+          ));
         }
       } else {
         const itemView = new TodoItemView();
