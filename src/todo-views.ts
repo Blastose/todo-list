@@ -161,9 +161,11 @@ class ProjectListView {
     this.hide = false;
   }
 
-  setEditProjectButtonFunction(editProjectFunction: () => void) {
+  setEditProjectButtonFunction(editProjectFunction: (projectName: string | undefined) => void) {
     const editProjectButton = document.getElementById('project-title-edit');
-    editProjectButton?.addEventListener('click', editProjectFunction);
+    editProjectButton?.addEventListener('click', () => {
+      editProjectFunction(this.active);
+    });
   }
 
   setDeleteProjectButtonFunction(deleteProjectFunction: () => void) {
@@ -250,11 +252,14 @@ class ProjectModalView {
 
   createViewElement
   (
+    modalTitle: string,
+    buttonText: string,
     addFunction: (project: TodoModels.Project) => void,
-    validateFunction: (newProjectTitle: string) => boolean
+    validateFunction: (newProjectTitle: string) => boolean,
+    validateErrorMessage: string,
   ): HTMLElement
   {
-    const modal = ModalView.createViewElement('Add project');
+    const modal = ModalView.createViewElement(modalTitle);
     const modalContent = modal.querySelector('.modal-content')!;
 
     const form = (DOMManipulation.createElementWithClass('form', 'project-form') as HTMLFormElement);
@@ -264,7 +269,7 @@ class ProjectModalView {
     projectTitleInput.addEventListener('input', () => { errorMessage.classList.add('hide') });
     const submitButton = document.createElement('input');
     submitButton.setAttribute('type', 'button');
-    submitButton.setAttribute('value', 'Add');
+    submitButton.setAttribute('value', buttonText);
     submitButton.addEventListener('click', () => {
       if (validateFunction(projectTitleInput.value)) {
         addFunction(new TodoModels.Project(projectTitleInput.value, this.todoList));
@@ -280,7 +285,7 @@ class ProjectModalView {
 
     const errorMessage = DOMManipulation.createElementWithClass('span', 'error-message');
     errorMessage.classList.add('hide');
-    errorMessage.textContent = '* Cannot add a project with the same name as an existing project or be blank.';
+    errorMessage.textContent = validateErrorMessage;
     form.appendChild(errorMessage);
 
     // Hack to prevent form from redirecting when only one form input on enter key press

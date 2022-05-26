@@ -148,12 +148,15 @@ class ProjectListController {
     this.projectListView = projectListView;
     this.todoList = todoList;
     this.modal = new TodoViews.ProjectModalView(this.todoList).createViewElement(
+      'Add project',
+      'Add',
       (project: TodoModels.Project) => {
         this.addProject(project);
         this.refreshProjectListView();
         this.modal.remove();
       }, 
-      this.validAddProjectTitle.bind(this)
+      this.validAddProjectTitle.bind(this),
+      '* Cannot add a project with the same name as an existing project or be blank.'
     );
 
     this.projectListView.addProjectButton.addEventListener('click', () => {
@@ -162,6 +165,7 @@ class ProjectListController {
     });
 
     this.projectListView.setDeleteProjectButtonFunction(this.showDeleteProjectModal.bind(this));
+    this.projectListView.setEditProjectButtonFunction(this.showEditProjectModal.bind(this));
   }
 
   setRefreshTodoListViewFunction(refreshTodoListViewFunction: () => void) {
@@ -188,8 +192,35 @@ class ProjectListController {
     this.projectListModel.addProject(project);
   }
 
-  editProject() {
+  editProject(projectName: string, newProjectName: string) {
+    const project = this.projectListModel.projects[this.projectListModel.getIndexOfProjectName(projectName)];
+    project.title = newProjectName;
     
+    // Change each todoitem
+    this.todoList.todoList.forEach(item => {
+      if (item.project === projectName) {
+        item.project = newProjectName;
+      }
+    });
+    this.projectListView.active = newProjectName;
+    const listTitle = document.querySelector('.main-title-text');
+    listTitle!.textContent = newProjectName;
+  }
+
+  showEditProjectModal(projectName: string | undefined) {
+    const editProjectModal = new TodoViews.ProjectModalView(this.todoList).createViewElement(
+      'Edit project name',
+      'Save',
+      (project: TodoModels.Project) => {
+        this.editProject(projectName!, project.title);
+        this.refreshProjectListView();
+        this.refreshTodoListView!();
+        editProjectModal.remove();
+      },
+      this.validAddProjectTitle.bind(this),
+      '* Cannot rename with the same name as an existing project or be blank.'
+    );
+    document.querySelector('.container')?.prepend(editProjectModal);
   }
 
   showDeleteProjectModal() {
