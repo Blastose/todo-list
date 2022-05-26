@@ -49,7 +49,7 @@ class DOMManipulation {
     form.reset();
 
     // Need to use keyof typeof 'Enum' to work with --noImplicitAny
-    return new TodoModels.TodoItem(title, description, date ? new Date(date) : new Date(), TodoModels.Priority[priority as keyof typeof TodoModels.Priority], false, uuidv4(), project);
+    return new TodoModels.TodoItem(title, description, date ? this.getDateFromDateInputString(date) : new Date(), TodoModels.Priority[priority as keyof typeof TodoModels.Priority], false, uuidv4(), project);
   }
 
   static getProjectTitles(projectList: TodoModels.ProjectList): string[] {
@@ -64,6 +64,19 @@ class DOMManipulation {
         (child as HTMLOptionElement).selected = true;
       }
     });
+  }
+
+  static parseDateInput(date: string) {
+    return date.split('-');
+  }
+
+  static getDateFromDateInputString(date: string) {
+    const parsedDate = this.parseDateInput(date);
+    const d = new Date();
+    d.setFullYear(Number(parsedDate[0]));
+    d.setMonth(Number(parsedDate[1]) - 1);
+    d.setDate(Number(parsedDate[2]));
+    return d;
   }
 
 }
