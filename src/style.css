@@ -187,6 +187,10 @@ ul {
   opacity: 100;
 }
 
+.project-title-actions.hide {
+  display: none;
+}
+
 .main-todo-items {
   display: flex;
   flex-direction: column;

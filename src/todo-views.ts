@@ -152,6 +152,7 @@ class ProjectListView {
   showHideProjectListButton: HTMLElement;
   active: string | undefined;
   hide: boolean;
+  specialProjectNames: string[];
 
   constructor() {
     this.addProjectButton = document.querySelector('.add-project-button')!;
@@ -159,11 +160,23 @@ class ProjectListView {
     this.showHideProjectListButton.addEventListener('click', this.toggleProjectListCollapse.bind(this));
     this.active = undefined;
     this.hide = false;
+
+    this.specialProjectNames = ['Default', 'Today', 'This week', 'Next week'];
   }
 
   updateActiveProject(newActive: string) {
     this.active = newActive;
     this.setProjectMainTitle(this.active);
+    this.updateProjectActionsDisplay();
+  }
+
+  updateProjectActionsDisplay() {
+    const actions = document.querySelector('.project-title-actions');
+    if (this.specialProjectNames.includes(this.active!)) {
+      actions?.classList.add('hide');
+    } else {
+      actions?.classList.remove('hide');
+    }
   }
 
   setProjectMainTitle(title: string) {
@@ -207,9 +220,7 @@ class ProjectListView {
     projectList.projects.forEach((project) => {
       const projectView = new ProjectView();
       const projectViewElement = projectView.createViewElement(project, () => {
-        this.active = project.title;
-        const listTitle = document.querySelector('.main-title-text');
-        listTitle!.textContent = project.title;
+        this.updateActiveProject(project.title);
         refreshProjectListViewFunction();
         refreshTodoListViewFunction();
       });
