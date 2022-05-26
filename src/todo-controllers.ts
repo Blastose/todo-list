@@ -140,12 +140,14 @@ class ProjectListController {
   projectListModel: TodoModels.ProjectList;
   projectListView: TodoViews.ProjectListView;
   modal: HTMLElement;
+  todoList: TodoModels.TodoList;
   refreshTodoListView: (() => void) | undefined;
 
   constructor(projectListModel: TodoModels.ProjectList, projectListView: TodoViews.ProjectListView, todoList: TodoModels.TodoList) {
     this.projectListModel = projectListModel;
     this.projectListView = projectListView;
-    this.modal = new TodoViews.ProjectModalView(todoList).createViewElement(
+    this.todoList = todoList;
+    this.modal = new TodoViews.ProjectModalView(this.todoList).createViewElement(
       (project: TodoModels.Project) => {
         this.addProject(project);
         this.refreshProjectListView();
@@ -158,6 +160,8 @@ class ProjectListController {
       document.querySelector('.container')?.prepend(this.modal);
       document.getElementById('project-title')?.focus();
     });
+
+    this.projectListView.setDeleteProjectButtonFunction(this.showDeleteProjectModal.bind(this));
   }
 
   setRefreshTodoListViewFunction(refreshTodoListViewFunction: () => void) {
@@ -184,8 +188,21 @@ class ProjectListController {
     this.projectListModel.addProject(project);
   }
 
-  deleteProject() {
+  editProject() {
+    
+  }
 
+  showDeleteProjectModal() {
+    const deleteProjectModal = new TodoViews.ConfirmModal().createViewElement(
+      this.projectListView.active,
+      this.todoList,
+      this.deleteProject
+    );
+    document.querySelector('.container')?.prepend(deleteProjectModal);
+  }
+
+  deleteProject() {
+    console.log('delete project?');
   }
 
   validAddProjectTitle(newProjectTitle: string): boolean {

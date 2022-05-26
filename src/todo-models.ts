@@ -69,6 +69,16 @@ class TodoList {
     });
   }
 
+  count(projectName: string) {
+    let count = 0;
+    this.todoList.forEach(item => {
+      if (item.project === projectName) {
+        count += 1;
+      }
+    });
+    return count;
+  }
+
 }
 
 class Project {

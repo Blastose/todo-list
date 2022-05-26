@@ -160,6 +160,16 @@ class ProjectListView {
     this.hide = false;
   }
 
+  setEditProjectButtonFunction(editProjectFunction: () => void) {
+    const editProjectButton = document.getElementById('project-title-edit');
+    editProjectButton?.addEventListener('click', editProjectFunction);
+  }
+
+  setDeleteProjectButtonFunction(deleteProjectFunction: () => void) {
+    const deleteProjectButton = document.getElementById('project-title-delete');
+    deleteProjectButton?.addEventListener('click', deleteProjectFunction);
+  }
+
   toggleProjectListCollapse() {
     const list = document.querySelector('.project-list > .menu-list')!;
     list.classList.toggle('hide');
@@ -434,4 +444,36 @@ class UndoView {
   }
 }
 
-export { TodoItemView, TodoListView, ProjectView, ProjectListView, ProjectModalView, TodoItemFormModalView, TodoItemEditFormModalView, UndoView }
+class ConfirmModal {
+  createViewElement(projectName: string | undefined, todoList: TodoModels.TodoList, deleteFunction: () => void) {
+    const modal = ModalView.createViewElement('Delete project?');
+    const modalContent = modal.querySelector('.modal-content')!;
+
+    const warningText = DOMManipulation.createElementWithClass('span', 'warning-text');
+    if (projectName) {
+      warningText.innerText = `There are ${todoList.count(projectName)} todo tasks in ${projectName}. \nDeleting the project will remove all of the todo tasks. \nDo you still want to delete the project?`;
+    }
+
+    const deleteButton = DOMManipulation.createElementWithClass('button', 'confirm-delete-button');
+    deleteButton.textContent = 'Delete';
+    const cancelButton = DOMManipulation.createElementWithClass('button', 'confirm-cancel-button');
+    cancelButton.textContent = 'Cancel';
+
+    const buttonsDiv = DOMManipulation.createElementWithClass('div', 'button-container');
+
+    modalContent.appendChild(warningText);
+    buttonsDiv.appendChild(cancelButton);
+    buttonsDiv.appendChild(deleteButton);
+    modalContent.appendChild(buttonsDiv);
+
+    deleteButton.addEventListener('click', () => {
+      deleteFunction();
+      modal.remove();
+    });
+    cancelButton.addEventListener('click', () => { modal.remove() });
+
+    return modal;
+  }
+}
+
+export { TodoItemView, TodoListView, ProjectView, ProjectListView, ProjectModalView, TodoItemFormModalView, TodoItemEditFormModalView, UndoView, ConfirmModal }

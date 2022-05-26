@@ -163,7 +163,9 @@ ul {
 
 .main-title-container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 100px;
+
+  padding: 20px 0px 20px 0px;
 }
 
 .main-title-text {
@@ -173,6 +175,15 @@ ul {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+.project-title-actions {
+  display: none;
+  justify-self: end;
+}
+
+.main-title-container:hover > .project-title-actions {
+  display: block;
 }
 
 .main-todo-items {
@@ -373,6 +384,12 @@ img.todo-item-delete {
   display: none;
 }
 
+.button-container {
+  display: flex;
+  gap: 16px;
+  justify-content: end;
+}
+
 @media only screen and (min-width: 800px) { 
   .todolist-app {
     display: grid;
@@ -390,7 +407,7 @@ img.todo-item-delete {
   }
 
   .main > .wrapper {
-    padding: 32px 64px 128px 64px;
+    padding: 12px 64px 128px 64px;
   }
 
   .modal-container {
