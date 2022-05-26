@@ -142,8 +142,12 @@ class Project {
 class ProjectList {
   projects: Project[];
 
-  constructor(projects: Project[]) {
-    this.projects = projects;
+  constructor(projects?: Project[]) {
+    if (projects) {
+      this.projects = projects;
+    } else {
+      this.projects = [] as Project[];
+    }
   }
 
   addProject(project: Project) {

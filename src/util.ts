@@ -1,5 +1,6 @@
 import * as TodoModels from './todo-models';
 import { v4 as uuidv4 } from 'uuid'
+import { parseISO } from 'date-fns';
 
 class DOMManipulation {
   static createElementWithClass(elementName: string, className: string): HTMLElement {
@@ -49,7 +50,7 @@ class DOMManipulation {
     form.reset();
 
     // Need to use keyof typeof 'Enum' to work with --noImplicitAny
-    return new TodoModels.TodoItem(title, description, date ? this.getDateFromDateInputString(date) : new Date(), TodoModels.Priority[priority as keyof typeof TodoModels.Priority], false, uuidv4(), project);
+    return new TodoModels.TodoItem(title, description, date ? Misc.getDateFromDateInputString(date) : new Date(), TodoModels.Priority[priority as keyof typeof TodoModels.Priority], false, uuidv4(), project);
   }
 
   static getProjectTitles(projectList: TodoModels.ProjectList): string[] {
@@ -65,7 +66,9 @@ class DOMManipulation {
       }
     });
   }
+}
 
+class Misc{
   static parseDateInput(date: string) {
     return date.split('-');
   }
@@ -79,6 +82,38 @@ class DOMManipulation {
     return d;
   }
 
+  static populateTodoListFromLocalStorage(storageListKey: string, list: TodoModels.TodoList) {
+    const storageList = JSON.parse(localStorage.getItem(storageListKey)!);
+    console.log(storageList);
+    if (storageList) {
+      const storageListArray  = (storageList.todoList as TodoModels.TodoItem[]);
+      storageListArray.forEach(item => {
+        const newItem = new TodoModels.TodoItem(item.title, item.description, parseISO(item.dueDate as unknown as string), item.priority, item.completed, item.id, item.project);
+        list.add(newItem);
+      });
+      return 0;
+    }
+    return -1;
+  }
+
+  static populateProjectListFromLocalStorage(storageListKey: string, list: TodoModels.ProjectList, todoList: TodoModels.TodoList) {
+    const storageList = JSON.parse(localStorage.getItem(storageListKey)!);
+    console.log(storageList);
+    if (storageList) {
+      const storageListArray  = (storageList.projects as TodoModels.Project[]);
+      storageListArray.forEach(item => {
+        const newItem = new TodoModels.Project(item.title, todoList);
+        list.addProject(newItem);
+      });
+      return 0;
+    }
+    return -1;
+  }
+
+  static setLocalStorage(key: string, object: any) {
+    localStorage.setItem(key, JSON.stringify(object));
+    console.log(3343434234);
+  }
 }
 
-export { DOMManipulation }
+export { DOMManipulation, Misc }

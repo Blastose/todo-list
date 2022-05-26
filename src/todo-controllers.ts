@@ -1,6 +1,6 @@
 import * as TodoModels from './todo-models';
 import * as TodoViews from './todo-views';
-import { DOMManipulation } from './util';
+import { DOMManipulation, Misc } from './util';
 
 class TodoItemController {
   todoItemModel: TodoModels.TodoItem;
@@ -98,6 +98,7 @@ class TodoListController {
 
   removeListItem(index: number) {
     this.todoListModel.remove(index);
+    Misc.setLocalStorage('TodoList', this.todoListModel);
   }
 
   removeListItemById(id: string) {
@@ -105,12 +106,14 @@ class TodoListController {
     if (item) {
       this.deletedTodoListModel.add(item);
     }
+    Misc.setLocalStorage('TodoList', this.todoListModel);
   }
 
   addListItem(item: TodoModels.TodoItem) {
     this.todoListModel.add(item);
     this.refreshView();
     this.refreshProjectListView!();
+    Misc.setLocalStorage('TodoList', this.todoListModel);
   }
 
   undoItemDeletion() {
@@ -119,12 +122,14 @@ class TodoListController {
       this.todoListModel.add(deletedItem);
       console.log(deletedItem);
     }
+    Misc.setLocalStorage('TodoList', this.todoListModel);
   }
 
   editListItem(todoItem: TodoModels.TodoItem, newTodoItem: TodoModels.TodoItem) {
     Object.assign(todoItem, newTodoItem);
     this.refreshView();
     this.refreshProjectListView!();
+    Misc.setLocalStorage('TodoList', this.todoListModel);
   }
 
   refreshView() {
@@ -203,10 +208,13 @@ class ProjectListController {
 
     const timeProjectMenuList = document.querySelector('.time-based-list');
     timeProjectMenuList?.appendChild(this.showTimeProjectList());
+    Misc.setLocalStorage('TodoList', this.todoList);
+    Misc.setLocalStorage('ProjectList', this.projectListModel);
   }
 
   addProject(project: TodoModels.Project) {
     this.projectListModel.addProject(project);
+    Misc.setLocalStorage('ProjectList', this.projectListModel);
   }
 
   editProject(projectName: string, newProjectName: string) {
@@ -220,6 +228,7 @@ class ProjectListController {
       }
     });
     this.projectListView.updateActiveProject(newProjectName);
+    Misc.setLocalStorage('ProjectList', this.projectListModel);
   }
 
   showEditProjectModal(projectName: string | undefined) {
@@ -253,6 +262,7 @@ class ProjectListController {
     this.todoList.removeAllWithProjectName(projectName);
     this.refreshProjectListView();
     this.refreshTodoListView!();
+    Misc.setLocalStorage('ProjectList', this.projectListModel);
   }
 
   validAddProjectTitle(newProjectTitle: string): boolean {

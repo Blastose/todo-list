@@ -1,5 +1,5 @@
 import * as TodoModels from './todo-models';
-import { DOMManipulation } from './util';
+import { DOMManipulation, Misc } from './util';
 import { format } from 'date-fns'
 
 class TodoItemView {
@@ -158,7 +158,7 @@ class ProjectListView {
     this.addProjectButton = document.querySelector('.add-project-button')!;
     this.showHideProjectListButton = document.querySelector('.project-list-show-hide-button')!;
     this.showHideProjectListButton.addEventListener('click', this.toggleProjectListCollapse.bind(this));
-    this.active = undefined;
+    this.active = 'Default';
     this.hide = false;
 
     this.specialProjectNames = ['Default', 'Today', 'This week', 'Next week'];
