@@ -182,12 +182,27 @@ class ProjectListController {
       );
   }
 
+  showTimeProjectList(): HTMLElement {
+    return this.projectListView.createTimeViewElement(
+      this.todoList,
+      this.refreshProjectListView.bind(this),
+      this.refreshTodoListView!
+    )
+  }
+
   refreshProjectListView() {
     const projectList = document.querySelector('.project-list > .menu-list');
     projectList?.remove();
 
     const projectMenuList = document.querySelector('.project-list');
     projectMenuList?.appendChild(this.showProjectList());
+
+    // Show upper, time project headings
+    const timeProjectList = document.querySelector('.time-based-list > .menu-list');
+    timeProjectList?.remove();
+
+    const timeProjectMenuList = document.querySelector('.time-based-list');
+    timeProjectMenuList?.appendChild(this.showTimeProjectList());
   }
 
   addProject(project: TodoModels.Project) {

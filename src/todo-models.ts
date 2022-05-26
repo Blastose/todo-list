@@ -1,3 +1,5 @@
+import { isSameDay, isSameWeek, add } from 'date-fns'
+
 enum Priority {
   none,
   low,
@@ -23,6 +25,17 @@ class TodoItem {
     this.id = id;
     this.project = project;
   }
+
+  dueDateWithinTime(timeFormat: string) {
+    if (timeFormat === 'Today') {
+      return isSameDay(this.dueDate, new Date());
+    } else if (timeFormat === 'This week') {
+      return isSameWeek(this.dueDate, new Date());
+    } else if (timeFormat === 'Next week') {
+      return isSameWeek(this.dueDate, add(new Date(), { days: 7 }));
+    }
+  }
+
 }
 
 class TodoList {
@@ -108,6 +121,16 @@ class Project {
     let count = 0;
     this.todoList.todoList.forEach((item) => {
       if (item.project === this.title && !item.completed) {
+        count += 1;
+      }
+    });
+    return count;
+  }
+
+  getCountWithinTime(time: string) {
+    let count = 0;
+    this.todoList.todoList.forEach(item => {
+      if (item.dueDateWithinTime(time) && !item.completed) {
         count += 1;
       }
     });

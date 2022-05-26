@@ -129,13 +129,13 @@ class TodoListView {
 
 class ProjectView {
 
-  createViewElement(project: TodoModels.Project, onClick: () => void): HTMLElement {
+  createViewElement(projectName: string, projectCount: number, onClick: () => void): HTMLElement {
     const sidebarItem = DOMManipulation.createElementWithClass('li', 'sidebar-item');
     const projectItemContent = DOMManipulation.createElementWithClass('div', 'project-item-content');
     const projectTitle = DOMManipulation.createElementWithClass('span', 'sidebar-item-title');
-    projectTitle.textContent = project.title;
+    projectTitle.textContent = projectName;
     const projectItemCount = DOMManipulation.createElementWithClass('span', 'project-item-count');
-    projectItemCount.textContent = String(project.getCount());
+    projectItemCount.textContent = String(projectCount);
 
     projectItemContent.appendChild(projectTitle);
     projectItemContent.appendChild(projectItemCount);
@@ -219,7 +219,7 @@ class ProjectListView {
 
     projectList.projects.forEach((project) => {
       const projectView = new ProjectView();
-      const projectViewElement = projectView.createViewElement(project, () => {
+      const projectViewElement = projectView.createViewElement(project.title, project.getCount(), () => {
         this.updateActiveProject(project.title);
         refreshProjectListViewFunction();
         refreshTodoListViewFunction();
@@ -235,6 +235,46 @@ class ProjectListView {
     if (this.hide) {
       menuList.classList.add('hide');
     }
+
+    return menuList;
+  }
+
+  createTimeViewElement(
+    todoList: TodoModels.TodoList,
+    refreshProjectListViewFunction: () => void,
+    refreshTodoListViewFunction: () => void
+    ): HTMLElement 
+  {
+    const menuList = DOMManipulation.createElementWithClass('div', 'menu-list');
+    const ul = DOMManipulation.createElementWithClass('ul', 'ul-project-list');
+    menuList.appendChild(ul);
+
+    const timeList = new TodoModels.ProjectList(
+      [
+        new TodoModels.Project('Today', todoList),
+        new TodoModels.Project('This week', todoList),
+        new TodoModels.Project('Next week', todoList)
+      ]
+    );
+
+    timeList.projects.forEach((project) => {
+      const projectView = new ProjectView();
+      const projectViewElement = projectView.createViewElement(
+        project.title, 
+        project.getCountWithinTime(project.title), 
+        () => {
+          this.updateActiveProject(project.title);
+          refreshProjectListViewFunction();
+          refreshTodoListViewFunction();
+        }
+      );
+      
+      if (project.title === this.active) {
+        projectViewElement.classList.add('sidebar-active');
+      }
+
+      ul.appendChild(projectViewElement);
+    });
 
     return menuList;
   }
