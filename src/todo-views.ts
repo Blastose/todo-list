@@ -237,7 +237,12 @@ class ProjectModalView {
     this.todoList = todoList;
   }
 
-  createViewElement(addFunction: (project: TodoModels.Project) => void): HTMLElement {
+  createViewElement
+  (
+    addFunction: (project: TodoModels.Project) => void,
+    validateFunction: (newProjectTitle: string) => boolean
+  ): HTMLElement
+  {
     const modal = ModalView.createViewElement('Add project');
     const modalContent = modal.querySelector('.modal-content')!;
 
@@ -245,16 +250,27 @@ class ProjectModalView {
     modalContent.appendChild(form);
 
     const [projectTitleLabel, projectTitleInput] = DOMManipulation.createFormInput('text', 'project-title', 'form-field', 'Name');
+    projectTitleInput.addEventListener('input', () => { errorMessage.classList.add('hide') });
     const submitButton = document.createElement('input');
     submitButton.setAttribute('type', 'button');
     submitButton.setAttribute('value', 'Add');
     submitButton.addEventListener('click', () => {
-      addFunction(new TodoModels.Project(projectTitleInput.value, this.todoList));
-      form.reset();
+      if (validateFunction(projectTitleInput.value)) {
+        addFunction(new TodoModels.Project(projectTitleInput.value, this.todoList));
+        form.reset();
+      } else {
+        console.log("Invalid title");
+        errorMessage.classList.remove('hide');
+      }
     });
     
     form.appendChild(projectTitleLabel);
     form.appendChild(projectTitleInput);
+
+    const errorMessage = DOMManipulation.createElementWithClass('span', 'error-message');
+    errorMessage.classList.add('hide');
+    errorMessage.textContent = '* Cannot add a project with the same name as an existing project or be blank.';
+    form.appendChild(errorMessage);
 
     // Hack to prevent form from redirecting when only one form input on enter key press
     const hidden = document.createElement('input');

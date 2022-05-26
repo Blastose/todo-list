@@ -365,6 +365,14 @@ img.todo-item-delete {
   gap: 12px;
 }
 
+.error-message {
+  color: red;
+}
+
+.error-message.hide {
+  display: none;
+}
+
 @media only screen and (min-width: 800px) { 
   .todolist-app {
     display: grid;

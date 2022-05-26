@@ -52,7 +52,7 @@ class DOMManipulation {
     return new TodoModels.TodoItem(title, description, date ? new Date(date) : new Date(), TodoModels.Priority[priority as keyof typeof TodoModels.Priority], false, uuidv4(), project);
   }
 
-  static getProjectTitles(projectList: TodoModels.ProjectList) {
+  static getProjectTitles(projectList: TodoModels.ProjectList): string[] {
     return projectList.projects.map(project => {
       return project.title;
     });

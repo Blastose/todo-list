@@ -146,10 +146,12 @@ class ProjectListController {
     this.projectListView = projectListView;
     this.modal = new TodoViews.ProjectModalView(todoList).createViewElement(
       (project: TodoModels.Project) => {
-      this.addProject(project);
-      this.refreshProjectListView();
-      this.modal.remove();
-    });
+        this.addProject(project);
+        this.refreshProjectListView();
+        this.modal.remove();
+      }, 
+      this.validAddProjectTitle.bind(this)
+    );
 
     this.projectListView.addProjectButton.addEventListener('click', () => {
       document.querySelector('.container')?.prepend(this.modal);
@@ -183,6 +185,13 @@ class ProjectListController {
 
   deleteProject() {
 
+  }
+
+  validAddProjectTitle(newProjectTitle: string): boolean {
+    if (newProjectTitle === '') {
+      return false;
+    }
+    return !DOMManipulation.getProjectTitles(this.projectListModel).includes(newProjectTitle);
   }
 
 }
