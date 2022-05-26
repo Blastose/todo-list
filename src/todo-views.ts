@@ -325,17 +325,20 @@ class TodoItemFormModalBase {
 
 class TodoItemFormModalView {
 
-  createViewElement(projectList: string[], addFunction: (todoItem: TodoModels.TodoItem) => void): HTMLElement {
+  createViewElement(projectList: string[], activeProject: string | undefined, addFunction: (todoItem: TodoModels.TodoItem) => void): HTMLElement {
     const [modal, form, 
       [
         , 
         , 
         , 
-        ,
+        selectOptions,
         ,
         submitButton
       ]] = TodoItemFormModalBase.createViewElement('Add todo task', projectList);
 
+    if (activeProject) {
+      DOMManipulation.selectOption(selectOptions, activeProject);
+    }
     submitButton.setAttribute('value', 'Add');
     submitButton.addEventListener('click', () => {
       const todoItem = DOMManipulation.extractTodoItemFormValues((form as HTMLFormElement));
@@ -362,16 +365,8 @@ class TodoItemEditFormModalView {
     todoItemTitleInput.value = todoItem.title;
     todoItemDescriptionInput.value = todoItem.description;
     todoItemDateInput.value = format(todoItem.dueDate, 'yyyy-MM-dd');
-    selectOptions.childNodes.forEach(child => {
-      if ((child as HTMLOptionElement).value === todoItem.project) {
-        (child as HTMLOptionElement).selected = true;
-      }
-    });
-    selectPrioOptions.childNodes.forEach(child => {
-      if ((child as HTMLOptionElement).value === TodoModels.Priority[todoItem.priority]) {
-        (child as HTMLOptionElement).selected = true;
-      }
-    });
+    DOMManipulation.selectOption(selectOptions, todoItem.project);
+    DOMManipulation.selectOption(selectPrioOptions, TodoModels.Priority[todoItem.priority]);
 
     submitButton.setAttribute('value', 'Save');
     submitButton.addEventListener('click', () => {

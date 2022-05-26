@@ -60,6 +60,7 @@ class TodoListController {
   showModal() {
     const addItemModal = new TodoViews.TodoItemFormModalView().createViewElement(
       DOMManipulation.getProjectTitles(this.projectListModel), 
+      this.projectListView.active, 
       (todoItem: TodoModels.TodoItem) => {
         this.addListItem(todoItem);
         addItemModal.remove();

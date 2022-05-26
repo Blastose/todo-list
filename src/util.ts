@@ -58,6 +58,14 @@ class DOMManipulation {
     });
   }
 
+  static selectOption(selectElement: HTMLElement, optionToSelect: string) {
+    selectElement.childNodes.forEach(child => {
+      if ((child as HTMLOptionElement).value === optionToSelect) {
+        (child as HTMLOptionElement).selected = true;
+      }
+    });
+  }
+
 }
 
 export { DOMManipulation }
