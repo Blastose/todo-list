@@ -189,7 +189,7 @@ ul {
 
   display: grid;
   grid-template-columns: 10px 1fr;
-  transition-duration: 0.2s;
+  transition-duration: 0.15s;
 }
 
 .todo-item-card:hover .todo-item-highlight {
@@ -228,6 +228,20 @@ ul {
   text-overflow: ellipsis;
   overflow: hidden;
 }
+
+.todo-item-card.completed .todo-item-title,
+.todo-item-card.completed .todo-item-description {
+  text-decoration: line-through;
+}
+
+.todo-item-card.completed {
+  background-color: rgb(214, 214, 214) !important;
+}
+
+.todo-item-card.completed:hover .todo-item-highlight {
+  background-color: gray;
+}
+
 
 .todo-item-actions {
   grid-area: actions;

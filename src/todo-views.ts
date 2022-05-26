@@ -30,8 +30,10 @@ class TodoItemView {
     checkbox.addEventListener('change', (e) => {
       if ((e.currentTarget! as HTMLInputElement).checked) {
         todoItem.completed = true;
+        card.classList.add('completed');
       } else {
         todoItem.completed = false;
+        card.classList.remove('completed');
       }
       refreshProjectListViewFunction();
     });
