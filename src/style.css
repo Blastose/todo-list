@@ -178,12 +178,13 @@ ul {
 }
 
 .project-title-actions {
-  display: none;
+  opacity: 0;
   justify-self: end;
+  transition-duration: 0.2s;
 }
 
 .main-title-container:hover > .project-title-actions {
-  display: block;
+  opacity: 100;
 }
 
 .main-todo-items {
@@ -256,20 +257,19 @@ ul {
 
 .todo-item-actions {
   grid-area: actions;
-
-  display: none;
-  justify-content: flex-end;
-  align-items: flex-start;
-  gap: 4px;
-}
-
-.todo-item-card:hover .todo-item-actions {
-  grid-area: actions;
-
+  opacity: 0;
+  
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
   gap: 4px;
+  
+  transition-duration: 0.2s;
+}
+
+.todo-item-card:hover .todo-item-actions {
+  grid-area: actions;
+  opacity: 100;
 }
 
 img.todo-item-edit,
