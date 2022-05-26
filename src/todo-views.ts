@@ -26,6 +26,7 @@ class TodoItemView {
     checkbox.setAttribute('id', todoItem.id);
     if (todoItem.completed) {
       checkbox.checked = true;
+      card.classList.add('completed');
     }
     checkbox.addEventListener('change', (e) => {
       if ((e.currentTarget! as HTMLInputElement).checked) {
