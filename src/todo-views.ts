@@ -161,6 +161,16 @@ class ProjectListView {
     this.hide = false;
   }
 
+  updateActiveProject(newActive: string) {
+    this.active = newActive;
+    this.setProjectMainTitle(this.active);
+  }
+
+  setProjectMainTitle(title: string) {
+    const listTitle = document.querySelector('.main-title-text');
+    listTitle!.textContent = title;
+  }
+
   setEditProjectButtonFunction(editProjectFunction: (projectName: string | undefined) => void) {
     const editProjectButton = document.getElementById('project-title-edit');
     editProjectButton?.addEventListener('click', () => {

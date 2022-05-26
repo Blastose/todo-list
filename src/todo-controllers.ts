@@ -139,7 +139,6 @@ class TodoListController {
 class ProjectListController {
   projectListModel: TodoModels.ProjectList;
   projectListView: TodoViews.ProjectListView;
-  modal: HTMLElement;
   todoList: TodoModels.TodoList;
   refreshTodoListView: (() => void) | undefined;
 
@@ -147,20 +146,8 @@ class ProjectListController {
     this.projectListModel = projectListModel;
     this.projectListView = projectListView;
     this.todoList = todoList;
-    this.modal = new TodoViews.ProjectModalView(this.todoList).createViewElement(
-      'Add project',
-      'Add',
-      (project: TodoModels.Project) => {
-        this.addProject(project);
-        this.refreshProjectListView();
-        this.modal.remove();
-      }, 
-      this.validAddProjectTitle.bind(this),
-      '* Cannot add a project with the same name as an existing project or be blank.'
-    );
-
     this.projectListView.addProjectButton.addEventListener('click', () => {
-      document.querySelector('.container')?.prepend(this.modal);
+      this.showAddProjectModal();
       document.getElementById('project-title')?.focus();
     });
 
@@ -170,6 +157,21 @@ class ProjectListController {
 
   setRefreshTodoListViewFunction(refreshTodoListViewFunction: () => void) {
     this.refreshTodoListView = refreshTodoListViewFunction;
+  }
+
+  showAddProjectModal() {
+    const modal = new TodoViews.ProjectModalView(this.todoList).createViewElement(
+      'Add project',
+      'Add',
+      (project: TodoModels.Project) => {
+        this.addProject(project);
+        this.refreshProjectListView();
+        modal.remove();
+      }, 
+      this.validAddProjectTitle.bind(this),
+      '* Cannot add a project with the same name as an existing project or be blank.'
+    );
+    document.querySelector('.container')?.prepend(modal);
   }
 
   showProjectList(): HTMLElement {
@@ -202,9 +204,7 @@ class ProjectListController {
         item.project = newProjectName;
       }
     });
-    this.projectListView.active = newProjectName;
-    const listTitle = document.querySelector('.main-title-text');
-    listTitle!.textContent = newProjectName;
+    this.projectListView.updateActiveProject(newProjectName);
   }
 
   showEditProjectModal(projectName: string | undefined) {
@@ -234,9 +234,7 @@ class ProjectListController {
 
   deleteProject(projectName: string) {
     this.projectListModel.removeProjectByName(projectName);
-    this.projectListView.active = 'Default';
-    const listTitle = document.querySelector('.main-title-text');
-    listTitle!.textContent = 'Default';
+    this.projectListView.updateActiveProject('Default');
     this.todoList.removeAllWithProjectName(projectName);
     this.refreshProjectListView();
     this.refreshTodoListView!();
