@@ -76,11 +76,6 @@ ul {
   height: 1.5em;
 }
 
-.project-list-heading {
-  font-size: 18px;
-  font-weight: bold;
-}
-
 .project-list {
   display: flex;
   flex-direction: column;
@@ -88,8 +83,11 @@ ul {
 }
 
 .project-list-heading {
+  font-size: 18px;
+  font-weight: bold;
   display: grid;
-  grid-template-columns: min-content 1fr 1fr;
+  grid-template-columns: min-content 1fr min-content;
+  column-gap: 12px;
 }
 
 .project-item-content {
@@ -396,6 +394,88 @@ img.todo-item-delete {
   display: flex;
   gap: 16px;
   justify-content: end;
+}
+
+.close-modal,
+.btn-undo-delete,
+.confirm-cancel-button,
+.confirm-delete-button,
+input[type="button"], 
+.btn-add {
+  all: unset;
+  text-align: center;
+  border: 1px solid rgb(85, 157, 224);
+  border-radius: 8px;
+  background-color: rgb(101, 174, 243);
+  color: white;
+  cursor: pointer;
+  transition-duration: 0.2s;
+  box-shadow: 0px 0px 3px -2px rgb(107, 107, 107);
+}
+
+.btn-undo-delete:hover,
+.confirm-cancel-button:hover,
+input[type="button"]:hover, 
+.btn-add:hover {
+  background-color: rgb(49, 140, 224);
+}
+
+.btn-undo-delete,
+.confirm-cancel-button,
+.confirm-delete-button {
+  padding: 4px 12px 4px 12px;
+}
+
+.confirm-delete-button {
+  background-color: rgb(214, 72, 72);
+  border: 1px solid rgb(182, 37, 37);
+}
+
+.confirm-delete-button:hover {
+  background-color: rgb(182, 37, 37);
+}
+
+.close-modal,
+.add-project-button,
+.add-project-button-header,
+.project-list-show-hide-button {
+  all: unset;
+  cursor: pointer;
+}
+
+.add-project-button,
+.add-project-button-header {
+  font-size: 22px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.projects-sidebar-text {
+  display: flex;
+  align-items: center;
+}
+
+.btn-undo-close,
+.close-modal {
+  font-size: 12px;
+  box-sizing: border-box;
+  height: 28px;
+  width: 28px;
+  background-color: rgb(255, 126, 126);
+  border: 1px solid rgb(235, 103, 103);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  cursor: pointer;
+  color: white;
+}
+
+.btn-undo-close,
+.close-modal:hover {
+  background-color: rgb(230, 74, 74);
 }
 
 @media only screen and (min-width: 800px) { 

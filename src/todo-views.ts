@@ -109,7 +109,7 @@ class TodoListView {
       }
     });
     
-    const addButton = DOMManipulation.createElementWithClass('button', 'add');
+    const addButton = DOMManipulation.createElementWithClass('button', 'btn-add');
     addButton.textContent = 'Add';
     addButton.addEventListener('click', () => {
       addFunction();
