@@ -1,16 +1,14 @@
+import { format } from 'date-fns';
 import * as TodoModels from './todo-models';
-import { DOMManipulation, Misc } from './util';
-import { format } from 'date-fns'
+import { DOMManipulation } from './util';
 
 class TodoItemView {
-
   createViewElement(
     todoItem: TodoModels.TodoItem,
     deleteFunction: (id: string) => void,
     editFunction: (todoItem: TodoModels.TodoItem) => void,
-    refreshProjectListViewFunction: () => void
-    ): HTMLElement
-  {
+    refreshProjectListViewFunction: () => void,
+  ): HTMLElement {
     const card = DOMManipulation.createElementWithClass('div', 'todo-item-card');
     const highlight = DOMManipulation.createElementWithClass('div', 'todo-item-highlight');
     const content = DOMManipulation.createElementWithClass('div', 'todo-item-content');
@@ -47,7 +45,7 @@ class TodoItemView {
     description.textContent = todoItem.description;
 
     const date = DOMManipulation.createElementWithClass('div', 'todo-item-date');
-    date.textContent = format(todoItem.dueDate, "MM/dd/yyyy");
+    date.textContent = format(todoItem.dueDate, 'MM/dd/yyyy');
 
     const projectTitle = DOMManipulation.createElementWithClass('div', 'todo-item-project-title');
     projectTitle.textContent = todoItem.project;
@@ -58,14 +56,14 @@ class TodoItemView {
     editButton.setAttribute('src', editSvgPath);
     editButton.setAttribute('title', 'Edit');
     editButton.addEventListener('click', () => {
-       editFunction(todoItem);
+      editFunction(todoItem);
     });
     const deleteSvgPath = require('./images/delete.svg');
     const deleteButton = DOMManipulation.createElementWithClass('img', 'todo-item-delete');
     deleteButton.setAttribute('src', deleteSvgPath);
     deleteButton.setAttribute('title', 'Delete');
-    deleteButton.addEventListener('click',  () => { deleteFunction(todoItem.id) });
-    
+    deleteButton.addEventListener('click', () => { deleteFunction(todoItem.id); });
+
     actions.appendChild(editButton);
     actions.appendChild(deleteButton);
 
@@ -78,37 +76,30 @@ class TodoItemView {
 
     return card;
   }
-  
 }
 
 class TodoListView {
-
   createViewElement(
-    list: TodoModels.TodoList, 
-    deleteFunction:  (id: string) => void, 
+    list: TodoModels.TodoList,
+    deleteFunction: (id: string) => void,
     addFunction: () => void,
     editFunction: (todoItem: TodoModels.TodoItem) => void,
     refreshProjectListViewFunction: () => void,
-    filter?: string
-    ): HTMLElement
-  {
+    filter?: string,
+  ): HTMLElement {
     const items = DOMManipulation.createElementWithClass('div', 'main-todo-items');
     list.todoList.forEach((item) => {
       if (filter) {
         if (item.project === filter || item.dueDateWithinTime(filter)) {
           const itemView = new TodoItemView();
-          items.appendChild(itemView.createViewElement(
-            item, deleteFunction, editFunction, refreshProjectListViewFunction
-          ));
+          items.appendChild(itemView.createViewElement(item, deleteFunction, editFunction, refreshProjectListViewFunction));
         }
       } else {
         const itemView = new TodoItemView();
-        items.appendChild(itemView.createViewElement(
-          item, deleteFunction, editFunction, refreshProjectListViewFunction
-          ));
+        items.appendChild(itemView.createViewElement(item, deleteFunction, editFunction, refreshProjectListViewFunction));
       }
     });
-    
+
     const addButton = DOMManipulation.createElementWithClass('button', 'btn-add');
     addButton.textContent = 'Add';
     addButton.addEventListener('click', () => {
@@ -128,7 +119,6 @@ class TodoListView {
 }
 
 class ProjectView {
-
   createViewElement(projectName: string, projectCount: number, onClick: () => void): HTMLElement {
     const sidebarItem = DOMManipulation.createElementWithClass('li', 'sidebar-item');
     const projectItemContent = DOMManipulation.createElementWithClass('div', 'project-item-content');
@@ -149,9 +139,13 @@ class ProjectView {
 
 class ProjectListView {
   addProjectButton: HTMLElement;
+
   showHideProjectListButton: HTMLElement;
+
   active: string | undefined;
+
   hide: boolean;
+
   specialProjectNames: string[];
 
   constructor() {
@@ -214,11 +208,11 @@ class ProjectListView {
     }
   }
 
-  createViewElement(projectList: TodoModels.ProjectList, 
+  createViewElement(
+    projectList: TodoModels.ProjectList,
     refreshProjectListViewFunction: () => void,
-    refreshTodoListViewFunction: () => void
-    ): HTMLElement 
-  {
+    refreshTodoListViewFunction: () => void,
+  ): HTMLElement {
     const menuList = DOMManipulation.createElementWithClass('div', 'menu-list');
     const ul = DOMManipulation.createElementWithClass('ul', 'ul-project-list');
     menuList.appendChild(ul);
@@ -230,7 +224,7 @@ class ProjectListView {
         refreshProjectListViewFunction();
         refreshTodoListViewFunction();
       });
-      
+
       if (project.title === this.active) {
         projectViewElement.classList.add('sidebar-active');
       }
@@ -248,9 +242,8 @@ class ProjectListView {
   createTimeViewElement(
     todoList: TodoModels.TodoList,
     refreshProjectListViewFunction: () => void,
-    refreshTodoListViewFunction: () => void
-    ): HTMLElement 
-  {
+    refreshTodoListViewFunction: () => void,
+  ): HTMLElement {
     const menuList = DOMManipulation.createElementWithClass('div', 'menu-list');
     const ul = DOMManipulation.createElementWithClass('ul', 'ul-project-list');
     menuList.appendChild(ul);
@@ -259,22 +252,22 @@ class ProjectListView {
       [
         new TodoModels.Project('Today', todoList),
         new TodoModels.Project('This week', todoList),
-        new TodoModels.Project('Next week', todoList)
-      ]
+        new TodoModels.Project('Next week', todoList),
+      ],
     );
 
     timeList.projects.forEach((project) => {
       const projectView = new ProjectView();
       const projectViewElement = projectView.createViewElement(
-        project.title, 
-        project.getCountWithinTime(project.title), 
+        project.title,
+        project.getCountWithinTime(project.title),
         () => {
           this.updateActiveProject(project.title);
           refreshProjectListViewFunction();
           refreshTodoListViewFunction();
-        }
+        },
       );
-      
+
       if (project.title === this.active) {
         projectViewElement.classList.add('sidebar-active');
       }
@@ -291,7 +284,7 @@ class ModalView {
     const modal = DOMManipulation.createElementWithClass('div', 'modal');
     const modalContainer = DOMManipulation.createElementWithClass('div', 'modal-container');
     modal.appendChild(modalContainer);
-    
+
     const modalContent = DOMManipulation.createElementWithClass('div', 'modal-content');
     modalContainer.appendChild(modalContent);
 
@@ -304,28 +297,26 @@ class ModalView {
     title.appendChild(closeButton);
     closeButton.addEventListener('click', () => {
       modal.remove();
-    })
+    });
 
     return modal;
   }
 }
 
 class ProjectModalView {
-  todoList: TodoModels.TodoList
+  todoList: TodoModels.TodoList;
 
   constructor(todoList: TodoModels.TodoList) {
     this.todoList = todoList;
   }
 
-  createViewElement
-  (
+  createViewElement(
     modalTitle: string,
     buttonText: string,
     addFunction: (project: TodoModels.Project) => void,
     validateFunction: (newProjectTitle: string) => boolean,
     validateErrorMessage: string,
-  ): HTMLElement
-  {
+  ): HTMLElement {
     const modal = ModalView.createViewElement(modalTitle);
     const modalContent = modal.querySelector('.modal-content')!;
 
@@ -333,7 +324,7 @@ class ProjectModalView {
     modalContent.appendChild(form);
 
     const [projectTitleLabel, projectTitleInput] = DOMManipulation.createFormInput('text', 'project-title', 'form-field', 'Name');
-    projectTitleInput.addEventListener('input', () => { errorMessage.classList.add('hide') });
+    projectTitleInput.addEventListener('input', () => { errorMessage.classList.add('hide'); });
     const submitButton = document.createElement('input');
     submitButton.setAttribute('type', 'button');
     submitButton.setAttribute('value', buttonText);
@@ -342,11 +333,11 @@ class ProjectModalView {
         addFunction(new TodoModels.Project(projectTitleInput.value, this.todoList));
         form.reset();
       } else {
-        console.log("Invalid title");
+        console.log('Invalid title');
         errorMessage.classList.remove('hide');
       }
     });
-    
+
     form.appendChild(projectTitleLabel);
     form.appendChild(projectTitleInput);
 
@@ -360,39 +351,44 @@ class ProjectModalView {
     hidden.setAttribute('hidden', '');
     form.appendChild(hidden);
     form.appendChild(submitButton);
-    
+
     return modal;
   }
 }
 
 class TodoItemFormModalBase {
   static createViewElement(modalTitle: string, projectList: string[])
-  :[HTMLElement, HTMLElement, [HTMLInputElement, HTMLInputElement, HTMLInputElement, HTMLElement, HTMLElement, HTMLInputElement]]
-  {
+  :[HTMLElement, HTMLElement, [HTMLInputElement, HTMLInputElement, HTMLInputElement, HTMLElement, HTMLElement, HTMLInputElement]] {
     const modal = ModalView.createViewElement(modalTitle);
     const modalContent = modal.querySelector('.modal-content')!;
 
     const [todoItemTitleLabel, todoItemTitleInput] = DOMManipulation.createFormInput('text', 'todo-item-title', '', 'Name');
     const [todoItemDescriptionLabel, todoItemDescriptionInput] = DOMManipulation.createFormInput('text', 'todo-item-description', '', 'Description');
     const [todoItemDateLabel, todoItemDateInput] = DOMManipulation.createFormInput('date', 'todo-item-date', '', 'Due date');
-        
+
     const formView = new FormView([
-      new TodoModels.FormItem(todoItemTitleInput, todoItemTitleLabel), 
-      new TodoModels.FormItem(todoItemDescriptionInput, todoItemDescriptionLabel), 
-      new TodoModels.FormItem(todoItemDateInput, todoItemDateLabel)
+      new TodoModels.FormItem(todoItemTitleInput, todoItemTitleLabel),
+      new TodoModels.FormItem(todoItemDescriptionInput, todoItemDescriptionLabel),
+      new TodoModels.FormItem(todoItemDateInput, todoItemDateLabel),
     ]);
-    const form = formView.createViewElement('todo-item-form')
+    const form = formView.createViewElement('todo-item-form');
 
     const [selectLabel, selectOptions] = DOMManipulation.selectInputMaker(
-      'Project', 'project-list', 'project-list', 
-      projectList);
+      'Project',
+      'project-list',
+      'project-list',
+      projectList,
+    );
     form.appendChild(selectLabel);
     form.appendChild(selectOptions);
 
     const [selectPrioLabel, selectPrioOptions] = DOMManipulation.selectInputMaker(
-      'Priority', 'priority-list', 'priority-list', 
+      'Priority',
+      'priority-list',
+      'priority-list',
       // Object values of enums include the number values as well so we need to filter them out
-      (Object.values(TodoModels.Priority)).filter(value => typeof value === 'string') as string[]);
+      (Object.values(TodoModels.Priority)).filter((value) => typeof value === 'string') as string[],
+    );
     form.appendChild(selectPrioLabel);
     form.appendChild(selectPrioOptions);
 
@@ -407,16 +403,14 @@ class TodoItemFormModalBase {
 }
 
 class TodoItemFormModalView {
-
   createViewElement(projectList: string[], activeProject: string | undefined, addFunction: (todoItem: TodoModels.TodoItem) => void): HTMLElement {
-    const [modal, form, 
+    const [modal, form,
       [
-        , 
-        , 
-        , 
-        selectOptions,
         ,
-        submitButton
+        ,
+        ,
+        selectOptions,,
+        submitButton,
       ]] = TodoItemFormModalBase.createViewElement('Add todo task', projectList);
 
     if (activeProject) {
@@ -433,16 +427,15 @@ class TodoItemFormModalView {
 }
 
 class TodoItemEditFormModalView {
-
   createViewElement(projectList: string[], todoItem: TodoModels.TodoItem, editFunction: (todoItem: TodoModels.TodoItem) => void): HTMLElement {
-    const [modal, form, 
+    const [modal, form,
       [
-        todoItemTitleInput, 
-        todoItemDescriptionInput, 
-        todoItemDateInput, 
+        todoItemTitleInput,
+        todoItemDescriptionInput,
+        todoItemDateInput,
         selectOptions,
         selectPrioOptions,
-        submitButton
+        submitButton,
       ]] = TodoItemFormModalBase.createViewElement('Edit todo task', projectList);
 
     todoItemTitleInput.value = todoItem.title;
@@ -470,7 +463,7 @@ class FormView {
 
   createViewElement(formClass: string) {
     const form = DOMManipulation.createElementWithClass('form', formClass);
-    this.formItems.forEach(item => {
+    this.formItems.forEach((item) => {
       if (item.formLabel) {
         form.appendChild(item.formLabel);
       }
@@ -511,7 +504,7 @@ class UndoView {
 
     setTimeout(() => {
       view.remove();
-    }, 5000)
+    }, 5000);
 
     return view;
   }
@@ -545,10 +538,12 @@ class ConfirmModal {
         modal.remove();
       }
     });
-    cancelButton.addEventListener('click', () => { modal.remove() });
+    cancelButton.addEventListener('click', () => { modal.remove(); });
 
     return modal;
   }
 }
 
-export { TodoItemView, TodoListView, ProjectView, ProjectListView, ProjectModalView, TodoItemFormModalView, TodoItemEditFormModalView, UndoView, ConfirmModal }
+export {
+  TodoItemView, TodoListView, ProjectView, ProjectListView, ProjectModalView, TodoItemFormModalView, TodoItemEditFormModalView, UndoView, ConfirmModal,
+};

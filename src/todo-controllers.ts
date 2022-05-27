@@ -4,6 +4,7 @@ import { DOMManipulation, Misc } from './util';
 
 class TodoItemController {
   todoItemModel: TodoModels.TodoItem;
+
   todoItemView: TodoViews.TodoItemView;
 
   constructor(todoItemModel: TodoModels.TodoItem, todoItemView: TodoViews.TodoItemView) {
@@ -14,21 +15,26 @@ class TodoItemController {
 
 class TodoListController {
   todoListModel: TodoModels.TodoList;
+
   todoListView: TodoViews.TodoListView;
+
   deletedTodoListModel: TodoModels.TodoList;
+
   projectListModel: TodoModels.ProjectList;
+
   projectListView: TodoViews.ProjectListView;
+
   undoDeletionModal: TodoViews.UndoView;
+
   refreshProjectListView: (() => void) | undefined;
 
   constructor(
-    todoListModel: TodoModels.TodoList, 
-    todoListView: TodoViews.TodoListView, 
-    projectListModel: TodoModels.ProjectList, 
+    todoListModel: TodoModels.TodoList,
+    todoListView: TodoViews.TodoListView,
+    projectListModel: TodoModels.ProjectList,
     projectListView: TodoViews.ProjectListView,
-    deletedTodoListModel: TodoModels.TodoList
-    )
-  {
+    deletedTodoListModel: TodoModels.TodoList,
+  ) {
     this.todoListModel = todoListModel;
     this.todoListView = todoListView;
     this.projectListModel = projectListModel;
@@ -53,18 +59,18 @@ class TodoListController {
       this.showModal.bind(this),
       this.showEditModal.bind(this),
       this.refreshProjectListView!,
-      this.projectListView.active
-      );
+      this.projectListView.active,
+    );
   }
 
   showModal() {
     const addItemModal = new TodoViews.TodoItemFormModalView().createViewElement(
-      DOMManipulation.getProjectTitles(this.projectListModel), 
-      this.projectListView.active, 
+      DOMManipulation.getProjectTitles(this.projectListModel),
+      this.projectListView.active,
       (todoItem: TodoModels.TodoItem) => {
         this.addListItem(todoItem);
         addItemModal.remove();
-      }
+      },
     );
     document.querySelector('.container')?.prepend(addItemModal);
     document.getElementById('todo-item-title')?.focus();
@@ -136,7 +142,7 @@ class TodoListController {
 
   refreshView() {
     const todoItems = document.querySelectorAll('.main-todo-items')!;
-    todoItems.forEach(item => item.remove());
+    todoItems.forEach((item) => item.remove());
 
     const mainContent = document.querySelector('.main-content')!;
     mainContent.appendChild(this.showList());
@@ -145,8 +151,11 @@ class TodoListController {
 
 class ProjectListController {
   projectListModel: TodoModels.ProjectList;
+
   projectListView: TodoViews.ProjectListView;
+
   todoList: TodoModels.TodoList;
+
   refreshTodoListView: (() => void) | undefined;
 
   constructor(projectListModel: TodoModels.ProjectList, projectListView: TodoViews.ProjectListView, todoList: TodoModels.TodoList) {
@@ -174,27 +183,27 @@ class ProjectListController {
         this.addProject(project);
         this.refreshProjectListView();
         modal.remove();
-      }, 
+      },
       this.validAddProjectTitle.bind(this),
-      '* Cannot add a project with the same name as an existing project or be blank.'
+      '* Cannot add a project with the same name as an existing project or be blank.',
     );
     document.querySelector('.container')?.prepend(modal);
   }
 
   showProjectList(): HTMLElement {
     return this.projectListView.createViewElement(
-      this.projectListModel, 
+      this.projectListModel,
       this.refreshProjectListView.bind(this),
-      this.refreshTodoListView!
-      );
+      this.refreshTodoListView!,
+    );
   }
 
   showTimeProjectList(): HTMLElement {
     return this.projectListView.createTimeViewElement(
       this.todoList,
       this.refreshProjectListView.bind(this),
-      this.refreshTodoListView!
-    )
+      this.refreshTodoListView!,
+    );
   }
 
   refreshProjectListView() {
@@ -222,9 +231,9 @@ class ProjectListController {
   editProject(projectName: string, newProjectName: string) {
     const project = this.projectListModel.projects[this.projectListModel.getIndexOfProjectName(projectName)];
     project.title = newProjectName;
-    
+
     // Change each todoitem
-    this.todoList.todoList.forEach(item => {
+    this.todoList.todoList.forEach((item) => {
       if (item.project === projectName) {
         item.project = newProjectName;
       }
@@ -244,7 +253,7 @@ class ProjectListController {
         editProjectModal.remove();
       },
       this.validAddProjectTitle.bind(this),
-      '* Cannot rename with the same name as an existing project or be blank.'
+      '* Cannot rename with the same name as an existing project or be blank.',
     );
     document.querySelector('.container')?.prepend(editProjectModal);
   }
@@ -253,7 +262,7 @@ class ProjectListController {
     const deleteProjectModal = new TodoViews.ConfirmModal().createViewElement(
       this.projectListView.active,
       this.todoList,
-      this.deleteProject.bind(this)
+      this.deleteProject.bind(this),
     );
     document.querySelector('.container')?.prepend(deleteProjectModal);
   }
@@ -274,7 +283,6 @@ class ProjectListController {
     }
     return !DOMManipulation.getProjectTitles(this.projectListModel).includes(newProjectTitle);
   }
-
 }
 
-export { TodoItemController, TodoListController, ProjectListController } 
+export { TodoItemController, TodoListController, ProjectListController };

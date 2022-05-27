@@ -1,4 +1,6 @@
-import { isSameDay, isSameWeek, add, isAfter } from 'date-fns'
+import {
+  isSameDay, isSameWeek, add, isAfter,
+} from 'date-fns';
 
 enum Priority {
   none,
@@ -9,13 +11,19 @@ enum Priority {
 
 class TodoItem {
   title: string;
+
   description: string;
+
   dueDate: Date;
+
   priority: Priority;
+
   completed: boolean;
+
   id: string;
+
   project: string;
-    
+
   constructor(title: string, description: string, dueDate: Date, priority: Priority, completed: boolean, id: string, project: string) {
     this.title = title;
     this.description = description;
@@ -29,13 +37,13 @@ class TodoItem {
   dueDateWithinTime(timeFormat: string) {
     if (timeFormat === 'Today') {
       return isSameDay(this.dueDate, new Date());
-    } else if (timeFormat === 'This week') {
+    } if (timeFormat === 'This week') {
       return isSameWeek(this.dueDate, new Date());
-    } else if (timeFormat === 'Next week') {
+    } if (timeFormat === 'Next week') {
       return isSameWeek(this.dueDate, add(new Date(), { days: 7 }));
     }
+    return false;
   }
-
 }
 
 class TodoList {
@@ -50,7 +58,7 @@ class TodoList {
   }
 
   add(todoItem: TodoItem) {
-    let indexToInsert = this.findIndexDueDate(todoItem.dueDate);
+    const indexToInsert = this.findIndexDueDate(todoItem.dueDate);
     this.todoList.splice(indexToInsert, 0, todoItem);
   }
 
@@ -99,31 +107,27 @@ class TodoList {
   }
 
   getIndexOfId(id: string) {
-    return this.todoList.findIndex((item) => {
-      return item.id === id;
-    });
+    return this.todoList.findIndex((item) => item.id === id);
   }
 
   getIndexOfProjectName(projectName: string) {
-    return this.todoList.findIndex((item) => {
-      return item.project === projectName;
-    })
+    return this.todoList.findIndex((item) => item.project === projectName);
   }
 
   count(projectName: string) {
     let count = 0;
-    this.todoList.forEach(item => {
+    this.todoList.forEach((item) => {
       if (item.project === projectName) {
         count += 1;
       }
     });
     return count;
   }
-
 }
 
 class Project {
   title: string;
+
   todoList: TodoList;
 
   constructor(title: string, todoList: TodoList) {
@@ -143,14 +147,13 @@ class Project {
 
   getCountWithinTime(time: string) {
     let count = 0;
-    this.todoList.todoList.forEach(item => {
+    this.todoList.todoList.forEach((item) => {
       if (item.dueDateWithinTime(time) && !item.completed) {
         count += 1;
       }
     });
     return count;
   }
-
 }
 
 class ProjectList {
@@ -180,22 +183,23 @@ class ProjectList {
       return this.removeProject(foundIndex);
     }
   }
-  
+
   getIndexOfProjectName(projectName: string) {
-    return this.projects.findIndex((item) => {
-      return item.title === projectName;
-    });
+    return this.projects.findIndex((item) => item.title === projectName);
   }
 }
 
 class FormItem {
   formLabel?: HTMLLabelElement;
+
   formInput: HTMLInputElement;
 
-  constructor(formInput: HTMLInputElement, formLabel?: HTMLLabelElement, ) {
+  constructor(formInput: HTMLInputElement, formLabel?: HTMLLabelElement) {
     this.formInput = formInput;
     this.formLabel = formLabel;
   }
 }
 
-export { Priority, TodoItem, TodoList, Project, ProjectList, FormItem }
+export {
+  Priority, TodoItem, TodoList, Project, ProjectList, FormItem,
+};
