@@ -214,18 +214,22 @@ ul {
 }
 
 .todo-item-content {
-  padding: 12px;
+  padding: 12px 12px 12px 4px;
   display: grid;
-  grid-template-columns: min-content 1fr 1fr;
+  grid-template-columns: min-content 1fr min-content;
   grid-template-rows: min-content min-content 1fr;
   grid-template-areas:
   "checkbox title actions"
   "checkbox description actions"
   "checkbox date project";
+  column-gap: 10px;
 }
 
 .todo-item-checkbox {
   grid-area: checkbox;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .todo-item-title {
