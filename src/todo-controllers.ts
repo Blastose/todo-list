@@ -127,6 +127,8 @@ class TodoListController {
 
   editListItem(todoItem: TodoModels.TodoItem, newTodoItem: TodoModels.TodoItem) {
     Object.assign(todoItem, newTodoItem);
+    this.todoListModel.removeById(todoItem.id);
+    this.todoListModel.add(todoItem);
     this.refreshView();
     this.refreshProjectListView!();
     Misc.setLocalStorage('TodoList', this.todoListModel);

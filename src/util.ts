@@ -112,7 +112,6 @@ class Misc{
 
   static setLocalStorage(key: string, object: any) {
     localStorage.setItem(key, JSON.stringify(object));
-    console.log(3343434234);
   }
 }
 

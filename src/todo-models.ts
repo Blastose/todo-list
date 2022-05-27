@@ -1,4 +1,4 @@
-import { isSameDay, isSameWeek, add } from 'date-fns'
+import { isSameDay, isSameWeek, add, isAfter } from 'date-fns'
 
 enum Priority {
   none,
@@ -50,7 +50,21 @@ class TodoList {
   }
 
   add(todoItem: TodoItem) {
-    this.todoList.push(todoItem);
+    let indexToInsert = this.findIndexDueDate(todoItem.dueDate);
+    this.todoList.splice(indexToInsert, 0, todoItem);
+  }
+
+  findIndexDueDate(date: Date) {
+    if (this.todoList.length === 0) {
+      return 0;
+    }
+    for (let i = 0; i < this.todoList.length; i++) {
+      console.log(`${i}: ${this.todoList[i].dueDate}`);
+      if (isAfter(this.todoList[i].dueDate, date)) {
+        return i;
+      }
+    }
+    return this.todoList.length;
   }
 
   remove(index: number) {
