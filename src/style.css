@@ -413,6 +413,12 @@ input[type="button"],
   box-shadow: 0px 0px 3px -2px rgb(107, 107, 107);
 }
 
+input[type="button"]:focus , 
+.btn-add:focus {
+  box-shadow: 0px 0px 0px 4px rgba(49, 139, 224, 0.308);
+  background-color: rgb(49, 140, 224);
+}
+
 .btn-undo-delete:hover,
 .confirm-cancel-button:hover,
 input[type="button"]:hover, 
@@ -431,6 +437,7 @@ input[type="button"]:hover,
   border: 1px solid rgb(182, 37, 37);
 }
 
+.confirm-delete-button:focus,
 .confirm-delete-button:hover {
   background-color: rgb(182, 37, 37);
 }
@@ -474,8 +481,9 @@ input[type="button"]:hover,
 }
 
 .btn-undo-close,
-.close-modal:hover {
-  background-color: rgb(230, 74, 74);
+.close-modal:hover,
+.close-modal:focus {
+  background-color: rgb(221, 65, 65);
 }
 
 @media only screen and (min-width: 800px) { 
