@@ -9,13 +9,21 @@ body {
   min-height: 100vh;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: min-content 1fr;
+  grid-template-rows: min-content min-content 1fr;
   grid-template-areas: 
   "header"
+  "sidebar"
   "main";
 }
 
 .sidebar {
+  background-color: rgb(245, 245, 245);
+  grid-area: sidebar;
+  transition-duration: 0.2s;
+  padding-bottom: 32px;
+}
+
+.sidebar.hide {
   display: none;
 }
 
@@ -27,9 +35,10 @@ body {
 }
 
 .main > .wrapper {
-  padding: 32px 24px 128px 24px;
+  padding: 12px 24px 128px 24px;
   box-sizing: border-box;
   height: 100%;
+  transition-duration: 0.2s;
 }
 
 ul {
@@ -142,6 +151,9 @@ ul {
 
 .header-right {
   justify-self: end;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .main {
@@ -491,6 +503,10 @@ input[type="button"]:hover,
 
 .toggle-sidebar {
   all: unset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
 @media only screen and (min-width: 800px) { 
@@ -503,16 +519,12 @@ input[type="button"]:hover,
     "sidebar main";
   }
 
-  .sidebar {
-    display: block;
-    background-color: rgb(245, 245, 245);
-    grid-area: sidebar;
-
+  .sidebar {  
     width: 300px;
-    transition-duration: 0.2s;
   }
 
   .sidebar.hide {
+    display: block;
     margin-left: -300px;
   }
 
