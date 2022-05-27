@@ -123,12 +123,15 @@ ul {
 
 .header-content {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr min-content;
   align-items: center;
 }
 
 .header-left {
   justify-self: start;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .logo-title {
@@ -486,10 +489,14 @@ input[type="button"]:hover,
   background-color: rgb(221, 65, 65);
 }
 
+.toggle-sidebar {
+  all: unset;
+}
+
 @media only screen and (min-width: 800px) { 
   .todolist-app {
     display: grid;
-    grid-template-columns: 300px 1fr;
+    grid-template-columns: min-content 1fr;
     grid-template-rows: min-content 1fr;
     grid-template-areas: 
     "header header"
@@ -500,6 +507,13 @@ input[type="button"]:hover,
     display: block;
     background-color: rgb(245, 245, 245);
     grid-area: sidebar;
+
+    width: 300px;
+    transition-duration: 0.2s;
+  }
+
+  .sidebar.hide {
+    margin-left: -300px;
   }
 
   .main > .wrapper {

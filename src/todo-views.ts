@@ -162,6 +162,12 @@ class ProjectListView {
     this.hide = false;
 
     this.specialProjectNames = ['Default', 'Today', 'This week', 'Next week'];
+
+    const menu = document.querySelector('.toggle-sidebar');
+    menu?.addEventListener('click', () => {
+      const sidebar = document.querySelector('.sidebar');
+      sidebar?.classList.toggle('hide');
+    });
   }
 
   updateActiveProject(newActive: string) {
