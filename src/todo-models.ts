@@ -1,6 +1,4 @@
-import {
-  isSameDay, isSameWeek, add, isAfter,
-} from 'date-fns';
+import { isSameDay, isSameWeek, add, isAfter } from "date-fns";
 
 enum Priority {
   none,
@@ -24,7 +22,15 @@ class TodoItem {
 
   project: string;
 
-  constructor(title: string, description: string, dueDate: Date, priority: Priority, completed: boolean, id: string, project: string) {
+  constructor(
+    title: string,
+    description: string,
+    dueDate: Date,
+    priority: Priority,
+    completed: boolean,
+    id: string,
+    project: string
+  ) {
     this.title = title;
     this.description = description;
     this.dueDate = dueDate;
@@ -35,11 +41,13 @@ class TodoItem {
   }
 
   dueDateWithinTime(timeFormat: string) {
-    if (timeFormat === 'Today') {
+    if (timeFormat === "Today") {
       return isSameDay(this.dueDate, new Date());
-    } if (timeFormat === 'This week') {
+    }
+    if (timeFormat === "This week") {
       return isSameWeek(this.dueDate, new Date());
-    } if (timeFormat === 'Next week') {
+    }
+    if (timeFormat === "Next week") {
       return isSameWeek(this.dueDate, add(new Date(), { days: 7 }));
     }
     return false;
@@ -200,6 +208,4 @@ class FormItem {
   }
 }
 
-export {
-  Priority, TodoItem, TodoList, Project, ProjectList, FormItem,
-};
+export { Priority, TodoItem, TodoList, Project, ProjectList, FormItem };
